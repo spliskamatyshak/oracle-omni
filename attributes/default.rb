@@ -95,6 +95,11 @@ end
 # rdbms attributes
 ###############################################################################
 
+# Version and edition attributes
+
+default['oracle-omni']['rdbms']['version'] = '12.1.0.2'
+default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SO
+
 # Account configuration attributes
 
 default['oracle-omni']['rdbms']['user'] = 'oracle'
@@ -109,13 +114,12 @@ default['oracle-omni']['rdbms']['groups'] = {
 
 default['oracle-omni']['rdbms']['oracle_base'] =
   "#{node['oracle-omni']['oracle']['ofa_base']}/#{node['oracle-omni']['rdbms']['user']}"
+
+edition_lower = node['oracle-omni']['rdbms']['edition'].downcase
 default['oracle-omni']['rdbms']['oracle_home'] =
-  "#{node['oracle-omni']['rdbms']['oracle_base']}/product/#{node['oracle-omni']['rdbms']['version']}/db#{node['oracle']['rdbms']['edition'].downcase}_1"
+  "#{node['oracle-omni']['rdbms']['oracle_base']}/product/#{node['oracle-omni']['rdbms']['version']}/db#{edition_lower}_1"
 
 # Installation attributes
-
-default['oracle-omni']['rdbms']['version'] = '12.1.0.2'
-default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SO
 
 default['oracle-omni']['rdbms']['install_files'] =
 case node['oracle-omni']['rdbms']['version']

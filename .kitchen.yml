@@ -13,9 +13,12 @@ suites:
     run_list:
 
       - recipe[oracle-omni::installrpms]
+      - recipe[oracle-omni::createusers]
 
     attributes:
       oracle-omni:
+        oracle:
+          mount_home: /u01
         rdbms:
           version: 11.2.0.4
           storage_type: ASM
