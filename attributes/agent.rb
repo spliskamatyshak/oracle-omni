@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oracle-omni
-# Attributes:: default
+# Attributes:: agent
 #
 # Copyright 2015, Stephen Pliska-Matyshak
 #
