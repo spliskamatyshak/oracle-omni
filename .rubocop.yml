@@ -1,0 +1,11 @@
+# This is the configuration used to check the oracle-omni source code.
+
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'Vagrantfile'
+    - 'Berksfile'
+    - 'Gemfile'
+    - 'Thorfile'
+    - 'metadata.rb'

@@ -8,7 +8,7 @@ TODO: List your cookbook requirements. Be sure to include any requirements this 
 
 e.g.
 #### packages
-- `toaster` - oracle-omni needs toaster to brown your bagel.
+- `parted` - oracle-omni needs for partitioning disks.
 
 Attributes
 ----------
