@@ -11,6 +11,8 @@
 # oracle attributes
 ###############################################################################
 
+# RPM attributes
+
 default['oracle-omni']['oracle']['preinstall_rpm'] =
 case node['oracle-omni']['rdbms']['version'].to_i
 when 11
@@ -19,8 +21,30 @@ when 12
   'oracle-rdbms-server-12cR1-preinstall'
 end
 
-default['oracle-omni']['oracle']['asm_rpms'] =
-  %w(oracleasm-support oracleasmlib)
+default['oracle-omni']['oracle']['asm_support_rpm'] = 'oracleasm-support'
+
+default['oracle-omni']['oracle']['asmlib_rpm_url'] =
+  'http://download.oracle.com/otn_software/asmlib'
+
+default['oracle-omni']['oracle']['asmlib_rpm'] =
+case node['platform_version'].to_i
+when 6
+  'oracleasmlib-2.0.4-1.el6.x86_64.rpm'
+when 7
+  'oracleasmlib-2.0.8-2.el7.x86_64.rpm'
+end
+
+# Path configuration attributes
+
+default['oracle-omni']['oracle']['home_mount'] = nil
+default['oracle-omni']['oracle']['ofa_base'] =
+  "#{node['oracle-omni']['oracle']['home_mount']}/app"
+default['oracle-omni']['oracle']['oracle_inventory'] =
+  "#{node['oracle-omni']['oracle']['ofa_base']}/oraInventory"
+default['oracle-omni']['oracle']['install_dir'] =
+  "#{node['oracle-omni']['oracle']['ofa_base']}/install"
+
+# Installation attributes
 
 default['oracle-omni']['oracle']['files_url'] = nil
 
@@ -41,6 +65,16 @@ end
 # grid attributes
 ###############################################################################
 
+# Account configuration attributes
+
+default['oracle-omni']['grid']['user'] = 'grid'
+default['oracle-omni']['grid']['uid'] = 54_322
+
+default['oracle-omni']['grid']['groups'] = {
+  'oinstall' => 54_321, 'dba' => 54_322, 'asmoper' => 54_327,
+  'asmadmin' => 54_328, 'asmdba' => 54_329
+}
+
 default['oracle-omni']['grid']['install_files'] =
 case node['oracle-omni']['rdbms']['version']
 when '11.2.0.4'
@@ -60,6 +94,25 @@ end
 ###############################################################################
 # rdbms attributes
 ###############################################################################
+
+# Account configuration attributes
+
+default['oracle-omni']['rdbms']['user'] = 'oracle'
+default['oracle-omni']['rdbms']['uid'] = 54_321
+
+default['oracle-omni']['rdbms']['groups'] = {
+  'oinstall' => 54_321, 'dba' => 54_322, 'oper' => 54_323,
+  'backupdba' => 54_324, 'dgdba' => 54_325, 'kmdba' => 54_326
+}
+
+# Path configuration attributes
+
+default['oracle-omni']['rdbms']['oracle_base'] =
+  "#{node['oracle-omni']['oracle']['ofa_base']}/#{node['oracle-omni']['rdbms']['user']}"
+default['oracle-omni']['rdbms']['oracle_home'] =
+  "#{node['oracle-omni']['rdbms']['oracle_base']}/product/#{node['oracle-omni']['rdbms']['version']}/db#{node['oracle']['rdbms']['edition'].downcase}_1"
+
+# Installation attributes
 
 default['oracle-omni']['rdbms']['version'] = '12.1.0.2'
 default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SO
@@ -89,6 +142,8 @@ when '12.1.0.2'
     )
   end
 end
+
+# Database creation attributes
 
 default['oracle-omni']['rdbms']['storage_type'] = 'FS'
 

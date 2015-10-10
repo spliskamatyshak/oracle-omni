@@ -17,4 +17,5 @@ suites:
     attributes:
       oracle-omni:
         rdbms:
+          version: 11.2.0.4
           storage_type: ASM
