@@ -12,6 +12,9 @@ suites:
   - name: default
     run_list:
 
-      - recipe[oracle-omni::default]
+      - recipe[oracle-omni::installrpms]
 
     attributes:
+      oracle-omni:
+        rdbms:
+          storage_type: ASM
