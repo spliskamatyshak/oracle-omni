@@ -1,43 +1,23 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+pkg/
 
-# Folder config file
-Desktop.ini
+# Berkshelf
+.vagrant
+/cookbooks
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+Berksfile.lock
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
 
-# Windows shortcuts
-*.lnk
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
 
-# =========================
-# Operating System Files
-# =========================
 
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+.kitchen/
+.kitchen.local.yml
