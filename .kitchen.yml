@@ -12,13 +12,19 @@ suites:
   - name: default
     run_list:
 
-      - recipe[oracle-omni::installrpms]
-      - recipe[oracle-omni::createusers]
+      - recipe[oracle-omni::prephost]
+      - recipe[oracle-omni::installgi]
 
     attributes:
       oracle-omni:
         oracle:
-          mount_home: /u01
+          home_mount: /u01
+          files_url: http://192.168.1.114:8887
         rdbms:
           version: 11.2.0.4
           storage_type: ASM
+        grid:
+          device_prefix: sd
+          ocr_disk: /dev/sdc
+          data_disk: /dev/sdd
+          log_disk: /dev/sde

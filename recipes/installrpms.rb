@@ -27,3 +27,5 @@ remote_file "#{file_loc}/#{rpm}" do
   notifies :install, 'yum_package[asmlib]', :immediately
   only_if { node['oracle-omni']['rdbms']['storage_type'] == 'ASM' }
 end
+
+include_recipe 'parted'

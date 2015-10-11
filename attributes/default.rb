@@ -62,36 +62,6 @@ when '12.1.0.2'
 end
 
 ###############################################################################
-# grid attributes
-###############################################################################
-
-# Account configuration attributes
-
-default['oracle-omni']['grid']['user'] = 'grid'
-default['oracle-omni']['grid']['uid'] = 54_322
-
-default['oracle-omni']['grid']['groups'] = {
-  'oinstall' => 54_321, 'dba' => 54_322, 'asmoper' => 54_327,
-  'asmadmin' => 54_328, 'asmdba' => 54_329
-}
-
-default['oracle-omni']['grid']['install_files'] =
-case node['oracle-omni']['rdbms']['version']
-when '11.2.0.4'
-  %w(p13390677_112040_Linux-x86-64_3of7.zip)
-when '12.1.0.1'
-  %w(
-    linuxamd64_12c_grid_1of2.zip
-    linuxamd64_12c_grid_2of2.zip
-  )
-when '12.1.0.2'
-  %w(
-    linuxamd64_12102_grid_1of2.zip
-    linuxamd64_12102_grid_2of2.zip
-  )
-end
-
-###############################################################################
 # rdbms attributes
 ###############################################################################
 
@@ -118,6 +88,8 @@ default['oracle-omni']['rdbms']['oracle_base'] =
 edition_lower = node['oracle-omni']['rdbms']['edition'].downcase
 default['oracle-omni']['rdbms']['oracle_home'] =
   "#{node['oracle-omni']['rdbms']['oracle_base']}/product/#{node['oracle-omni']['rdbms']['version']}/db#{edition_lower}_1"
+default['oracle-omni']['rdbms']['install_dir'] =
+  "#{node['oracle-omni']['oracle']['install_dir']}/database"
 
 # Installation attributes
 
@@ -152,8 +124,58 @@ end
 default['oracle-omni']['rdbms']['storage_type'] = 'FS'
 
 ###############################################################################
+# grid attributes
+###############################################################################
+
+# Account configuration attributes
+
+default['oracle-omni']['grid']['user'] = 'grid'
+default['oracle-omni']['grid']['uid'] = 54_322
+
+default['oracle-omni']['grid']['groups'] = {
+  'oinstall' => 54_321, 'dba' => 54_322, 'asmoper' => 54_327,
+  'asmadmin' => 54_328, 'asmdba' => 54_329
+}
+
+# Path configuration attributes
+
+default['oracle-omni']['grid']['oracle_home'] =
+  "#{node['oracle-omni']['rdbms']['oracle_base']}/product/#{node['oracle-omni']['rdbms']['version']}/grid"
+default['oracle-omni']['grid']['install_dir'] =
+  "#{node['oracle-omni']['oracle']['install_dir']}/grid"
+
+# Disk configuration attributes
+
+default['oracle-omni']['grid']['device_prefix'] = nil
+default['oracle-omni']['grid']['ocr_disk'] = nil
+default['oracle-omni']['grid']['data_disk'] = nil
+default['oracle-omni']['grid']['log_disk'] = nil
+
+# Installation attributes
+
+default['oracle-omni']['grid']['install_files'] =
+case node['oracle-omni']['rdbms']['version']
+when '11.2.0.4'
+  %w(p13390677_112040_Linux-x86-64_3of7.zip)
+when '12.1.0.1'
+  %w(
+    linuxamd64_12c_grid_1of2.zip
+    linuxamd64_12c_grid_2of2.zip
+  )
+when '12.1.0.2'
+  %w(
+    linuxamd64_12102_grid_1of2.zip
+    linuxamd64_12102_grid_2of2.zip
+  )
+end
+
+default['oracle-omni']['grid']['cvuqdisk_rpm'] = 'cvuqdisk-1.0.9-1.rpm'
+
+###############################################################################
 # client attributes
 ###############################################################################
+default['oracle-omni']['client']['install_dir'] =
+  "#{node['oracle-omni']['oracle']['install_dir']}/client"
 
 default['oracle-omni']['client']['version'] = '12.1.0.2'
 default['oracle-omni']['client']['is_32bit'] = false
