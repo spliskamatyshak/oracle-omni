@@ -13,7 +13,8 @@ rgrp = node['oracle-omni']['rdbms']['groups'].keys.first
 [
   node['oracle-omni']['rdbms']['oracle_base'],
   node['oracle-omni']['rdbms']['oracle_home'],
-  node['oracle-omni']['grid']['oracle_home']
+  node['oracle-omni']['grid']['oracle_home'],
+  node['oracle-omni']['oracle']['oracle_inventory']
 ].each do |dirs|
   directory dirs do
     owner rusr
@@ -24,7 +25,7 @@ rgrp = node['oracle-omni']['rdbms']['groups'].keys.first
 end
 
 execute 'set_rdbms_owner' do
-  command "chown -R #{rusr}:#{rgrp} #{node['oracle-omni']['oracle']['home_mount']}/"
+  command "chown -R #{rusr}:#{rgrp} #{node['oracle-omni']['oracle']['home_mount']}"
 end
 
 gusr = node['oracle-omni']['grid']['user']
@@ -47,13 +48,13 @@ end
 
 # Create other directories necessary for installs
 
-directory node['oracle-omni']['oracle']['oracle_inventory'] do
+directory node['oracle-omni']['oracle']['install_dir'] do
   owner gusr
   group ggrp
-  mode '0775'
+  mode '0770'
 end
 
-directory node['oracle-omni']['oracle']['install_dir'] do
+directory node['oracle-omni']['oracle']['patch_dir'] do
   owner gusr
   group ggrp
   mode '0770'

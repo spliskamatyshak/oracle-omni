@@ -43,6 +43,8 @@ default['oracle-omni']['oracle']['oracle_inventory'] =
   "#{node['oracle-omni']['oracle']['ofa_base']}/oraInventory"
 default['oracle-omni']['oracle']['install_dir'] =
   "#{node['oracle-omni']['oracle']['ofa_base']}/install"
+default['oracle-omni']['oracle']['patch_dir'] =
+  "#{node['oracle-omni']['oracle']['install_dir']}/patches"
 
 # Installation attributes
 
@@ -59,6 +61,14 @@ when '12.1.0.1'
   %w(p21150817_121010_Linux-x86-64.zip)
 when '12.1.0.2'
   %w(p21150782_121020_Linux-x86-64.zip)
+end
+
+default['oracle-omni']['oracle']['opatch'] =
+case node['oracle-omni']['rdbms']['version'].to_f
+when 11.2
+  'p6880880_112000_Linux-x86-64.zip'
+when 12.1
+  'p6880880_121010_Linux-x86-64.zip'
 end
 
 ###############################################################################
@@ -122,6 +132,8 @@ end
 # Database creation attributes
 
 default['oracle-omni']['rdbms']['storage_type'] = 'FS'
+default['oracle-omni']['rdbms']['char_set'] = 'AL32UTF8'
+default['oracle-omni']['rdbms']['nchar_set'] = 'AL16UTF16'
 
 ###############################################################################
 # grid attributes

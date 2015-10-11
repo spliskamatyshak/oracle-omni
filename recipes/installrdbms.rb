@@ -1,36 +1,36 @@
 #
 # Cookbook Name:: oracle-omni
-# Recipe:: installgi
+# Recipe:: installrdbms
 #
 # Copyright 2015, Stephen Pliska-Matyshak
 #
 # All rights reserved - Do Not Redistribute
 #
 
-usr = node['oracle-omni']['grid']['user']
-grp = node['oracle-omni']['grid']['groups'].keys.first
+usr = node['oracle-omni']['rdbms']['user']
+grp = node['oracle-omni']['rdbms']['groups'].keys.first
 dir = node['oracle-omni']['oracle']['install_dir']
-gdir = node['oracle-omni']['grid']['install_dir']
-oh = node['oracle-omni']['grid']['oracle_home']
+rdir = node['oracle-omni']['rdbms']['install_dir']
+oh = node['oracle-omni']['rdbms']['oracle_home']
 inv = node['oracle-omni']['oracle']['oracle_inventory']
 url = node['oracle-omni']['oracle']['files_url']
 op = node['oracle-omni']['oracle']['opatch']
 # pdir = node['oracle-omni']['oracle']['patch_dir']
 
-node['oracle-omni']['grid']['install_files'].each do |zip_file|
+node['oracle-omni']['rdbms']['install_files'].each do |zip_file|
   remote_file "#{dir}/#{zip_file}" do
     source "#{url}/#{zip_file}"
     user usr
     group grp
     not_if { File.exist?("#{dir}/#{zip_file}") }
-    not_if { File.exist?("#{gdir}/install/.oui") }
+    not_if { File.directory?("#{rdir}/stage/Components/oracle.rdbms") }
   end
   execute "unzip_media_#{zip_file}" do
     command "unzip -n #{File.basename(zip_file)}"
     user usr
     group grp
     cwd dir
-    not_if { File.exist?("#{gdir}/install/.oui") }
+    not_if { File.directory?("#{rdir}/stage/Components/oracle.rdbms") }
   end
   file "#{dir}/#{zip_file}" do
     owner usr
@@ -43,27 +43,24 @@ end
 template '/etc/oraInst.loc' do
   source 'oraInst.loc.erb'
   mode '0644'
+  not_if { File.exist?('/etc/oraInst.loc') }
 end
 
-template "#{gdir}/response/grid_install.rsp" do
-  source "#{node['oracle-omni']['rdbms']['version']}/grid_install.rsp.erb"
+template "#{rdir}/response/db_install.rsp" do
+  source "#{node['oracle-omni']['rdbms']['version']}/db_install.rsp.erb"
   user usr
   group grp
   mode '0644'
 end
 
-yum_package 'cvuqdisk' do
-  source "#{gdir}/rpm/#{node['oracle-omni']['grid']['cvuqdisk_rpm']}"
-end
-
-execute 'gi_install' do
-  command "su -c '#{gdir}/runInstaller -silent -waitforcompletion \
+execute 'rdbms_install' do
+  command "su -c '#{rdir}/runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{gdir}/response/grid_install.rsp' - #{usr}"
+  -responseFile #{rdir}/response/db_install.rsp' - #{usr}"
   environment(
-    'TMP' => '/tmp',
-    'TMPDIR' => '/tmp',
-    'DISPLAY' => "#{node['hostname']}:0.0"
+  'TMP' => '/tmp',
+  'TMPDIR' => '/tmp',
+  'DISPLAY' => "#{node['hostname']}:0.0"
   )
   returns [0, 6]
   not_if { File.directory?("#{oh}/bin") }
@@ -77,7 +74,6 @@ end
 
 execute 'run_root' do
   command "#{oh}/root.sh"
-  not_if { File.directory?('/opt/ORCLfmap') }
 end
 
 remote_file "#{oh}/#{op}" do
