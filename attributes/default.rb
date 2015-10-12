@@ -183,6 +183,8 @@ end
 
 default['oracle-omni']['grid']['cvuqdisk_rpm'] = 'cvuqdisk-1.0.9-1.rpm'
 
+default['oracle-omni']['grid']['asm_password'] = 'temp'
+
 ###############################################################################
 # client attributes
 ###############################################################################

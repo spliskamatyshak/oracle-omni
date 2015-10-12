@@ -54,14 +54,17 @@ template "#{rdir}/response/db_install.rsp" do
 end
 
 execute 'rdbms_install' do
-  command "su -c '#{rdir}/runInstaller -silent -waitforcompletion \
+  command "./runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{rdir}/response/db_install.rsp' - #{usr}"
+  -responseFile #{rdir}/response/db_install.rsp"
   environment(
-  'TMP' => '/tmp',
-  'TMPDIR' => '/tmp',
-  'DISPLAY' => "#{node['hostname']}:0.0"
+    'TMP' => '/tmp',
+    'TMPDIR' => '/tmp',
+    'DISPLAY' => "#{node['hostname']}:0.0"
   )
+  user usr
+  group grp
+  cwd rdir
   returns [0, 6]
   not_if { File.directory?("#{oh}/bin") }
 end

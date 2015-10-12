@@ -57,14 +57,17 @@ yum_package 'cvuqdisk' do
 end
 
 execute 'gi_install' do
-  command "su -c '#{gdir}/runInstaller -silent -waitforcompletion \
+  command "./runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{gdir}/response/grid_install.rsp' - #{usr}"
+  -responseFile #{gdir}/response/grid_install.rsp"
   environment(
     'TMP' => '/tmp',
     'TMPDIR' => '/tmp',
     'DISPLAY' => "#{node['hostname']}:0.0"
   )
+  user usr
+  group grp
+  cwd gdir
   returns [0, 6]
   not_if { File.directory?("#{oh}/bin") }
 end
@@ -89,8 +92,6 @@ end
 
 execute 'backup_opatch' do
   command 'mv OPatch OPatch.orig'
-  user usr
-  group grp
   cwd oh
   not_if { File.directory?("#{oh}/OPatch.orig") }
 end

@@ -15,6 +15,7 @@ suites:
       - recipe[oracle-omni::prephost]
       - recipe[oracle-omni::installgi]
       - recipe[oracle-omni::installrdbms]
+      - recipe[oracle-omni::configureasm]
 
     attributes:
       oracle-omni:
