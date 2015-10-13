@@ -8,6 +8,7 @@
 #
 
 include_recipe 'oracle-omni::installrpms'
+include_recipe 'oracle-omni::setlimits'
 include_recipe 'oracle-omni::createusers'
 include_recipe 'oracle-omni::createdirs'
 include_recipe 'oracle-omni::setupasm' if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'

@@ -16,6 +16,8 @@ suites:
       - recipe[oracle-omni::installgi]
       - recipe[oracle-omni::installrdbms]
       - recipe[oracle-omni::configureasm]
+      - recipe[oracle-omni::createdbdgs]
+      - recipe[oracle-omni::createdb]
 
     attributes:
       oracle-omni:

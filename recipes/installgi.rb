@@ -57,17 +57,14 @@ yum_package 'cvuqdisk' do
 end
 
 execute 'gi_install' do
-  command "./runInstaller -silent -waitforcompletion \
+  command "su -c '#{gdir}/runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{gdir}/response/grid_install.rsp"
+  -responseFile #{gdir}/response/grid_install.rsp' - #{usr}"
   environment(
     'TMP' => '/tmp',
     'TMPDIR' => '/tmp',
     'DISPLAY' => "#{node['hostname']}:0.0"
   )
-  user usr
-  group grp
-  cwd gdir
   returns [0, 6]
   not_if { File.directory?("#{oh}/bin") }
 end
@@ -81,6 +78,12 @@ end
 execute 'run_root' do
   command "#{oh}/root.sh"
   not_if { File.directory?('/opt/ORCLfmap') }
+end
+
+directory oh do
+  owner usr
+  group grp
+  mode '0755'
 end
 
 remote_file "#{oh}/#{op}" do

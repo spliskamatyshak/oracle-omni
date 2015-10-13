@@ -12,6 +12,13 @@ usr = node['oracle-omni']['grid']['user']
 grp = node['oracle-omni']['grid']['groups'].keys.first
 pwd = node['oracle-omni']['grid']['asm_password']
 
+execute 'start_cssd' do
+  command "#{oh}/bin/crs_start ora.cssd"
+  user usr
+  group grp
+  not_if "#{oh}/bin/crsctl check css"
+end
+
 execute 'configure_asm' do
   command "#{oh}/bin/asmca -silent -configureASM -sysASMPassword #{pwd} \
     -asmsnmpPassword #{pwd} -diskGroupName SYSTEM_DG -diskList ORCL:OCR \
