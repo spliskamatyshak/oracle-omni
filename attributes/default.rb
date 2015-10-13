@@ -87,7 +87,8 @@ default['oracle-omni']['rdbms']['uid'] = 54_321
 
 default['oracle-omni']['rdbms']['groups'] = {
   'oinstall' => 54_321, 'dba' => 54_322, 'oper' => 54_323,
-  'backupdba' => 54_324, 'dgdba' => 54_325, 'kmdba' => 54_326
+  'backupdba' => 54_324, 'dgdba' => 54_325, 'kmdba' => 54_326,
+  'asmdba' => 54_329
 }
 
 # Path configuration attributes
