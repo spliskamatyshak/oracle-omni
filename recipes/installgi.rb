@@ -95,6 +95,8 @@ end
 
 execute 'backup_opatch' do
   command 'mv OPatch OPatch.orig'
+  user 'root'
+  group 'root'
   cwd oh
   not_if { File.directory?("#{oh}/OPatch.orig") }
 end

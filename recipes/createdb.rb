@@ -28,9 +28,11 @@ template "#{oh}/assistants/dbca/dbca.rsp" do
 end
 
 directory "#{node['oracle-omni']['rdbms']['oracle_base']}/cfgtoollogs" do
-  owner usr
-  group grp
   mode '0775'
+end
+
+directory "#{node['oracle-omni']['rdbms']['oracle_base']}/admin" do
+  mode '0770'
 end
 
 execute 'create_db' do

@@ -155,7 +155,7 @@ default['oracle-omni']['grid']['groups'] = {
 # Path configuration attributes
 
 default['oracle-omni']['grid']['oracle_home'] =
-  "#{node['oracle-omni']['rdbms']['oracle_base']}/product/#{node['oracle-omni']['rdbms']['version']}/grid"
+  "#{node['oracle-omni']['oracle']['ofa_base']}/#{node['oracle-omni']['rdbms']['version']}/grid"
 default['oracle-omni']['grid']['install_dir'] =
   "#{node['oracle-omni']['oracle']['install_dir']}/grid"
 
