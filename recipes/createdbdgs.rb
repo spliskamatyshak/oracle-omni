@@ -24,7 +24,7 @@ execute 'create_data_dg' do
     -diskList ORCL:DATA -redundancy EXTERNAL"
   user usr
   group grp
-  not_if "#{oh}/bin/srvctl status diskgroup -#{arg} DATA_DG"
+  not_if "#{oh}/bin/srvctl status diskgroup -#{arg} DATA_DG", user: usr
 end
 
 execute 'create_log_dg' do
@@ -32,5 +32,5 @@ execute 'create_log_dg' do
     -diskList ORCL:LOG -redundancy EXTERNAL"
   user usr
   group grp
-  not_if "#{oh}/bin/srvctl status diskgroup -#{arg} LOG_DG"
+  not_if "#{oh}/bin/srvctl status diskgroup -#{arg} LOG_DG", user: usr
 end

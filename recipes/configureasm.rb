@@ -16,7 +16,7 @@ execute 'start_cssd' do
   command "#{oh}/bin/crs_start ora.cssd"
   user usr
   group grp
-  not_if "#{oh}/bin/crsctl check css"
+  not_if "#{oh}/bin/crsctl check css", user: usr
 end
 
 execute 'configure_asm' do
@@ -25,7 +25,7 @@ execute 'configure_asm' do
     -redundancy EXTERNAL"
   user usr
   group grp
-  not_if "#{oh}/bin/srvctl config asm"
+  not_if "#{oh}/bin/srvctl config asm", user: usr
 end
 
 execute 'configure_listener' do
@@ -33,5 +33,5 @@ execute 'configure_listener' do
     -responseFile #{oh}/assistants/netca/netca.rsp"
   user usr
   group grp
-  not_if "#{oh}/bin/srvctl config listener"
+  not_if "#{oh}/bin/srvctl config listener", user: usr
 end

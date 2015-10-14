@@ -15,7 +15,6 @@ oh = node['oracle-omni']['grid']['oracle_home']
 inv = node['oracle-omni']['oracle']['oracle_inventory']
 url = node['oracle-omni']['oracle']['files_url']
 op = node['oracle-omni']['oracle']['opatch']
-# pdir = node['oracle-omni']['oracle']['patch_dir']
 
 node['oracle-omni']['grid']['install_files'].each do |zip_file|
   remote_file "#{dir}/#{zip_file}" do
@@ -83,7 +82,7 @@ end
 directory oh do
   owner usr
   group grp
-  mode '0755'
+  mode '0775'
 end
 
 remote_file "#{oh}/#{op}" do
@@ -95,8 +94,8 @@ end
 
 execute 'backup_opatch' do
   command 'mv OPatch OPatch.orig'
-  user 'root'
-  group 'root'
+  user usr
+  group grp
   cwd oh
   not_if { File.directory?("#{oh}/OPatch.orig") }
 end

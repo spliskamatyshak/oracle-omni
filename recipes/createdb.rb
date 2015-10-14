@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
+ob = node['oracle-omni']['rdbms']['oracle_base']
 oh = node['oracle-omni']['rdbms']['oracle_home']
 usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
@@ -27,24 +28,25 @@ template "#{oh}/assistants/dbca/dbca.rsp" do
   mode '0775'
 end
 
-directory "#{node['oracle-omni']['rdbms']['oracle_base']}/cfgtoollogs" do
+directory "#{ob}/cfgtoollogs" do
   mode '0775'
 end
 
-directory "#{node['oracle-omni']['rdbms']['oracle_base']}/admin" do
+directory "#{ob}/admin" do
   mode '0770'
 end
 
+%w(listener sqlnet).each do |file|
+  link "#{oh}/network/admin/#{file}.ora" do
+    to "#{node['oracle-omni']['grid']['oracle_home']}/network/admin/#{file}.ora"
+  end
+end
+
 execute 'create_db' do
-  command "./dbca -silent -responseFile #{oh}/assistants/dbca/dbca.rsp \
-    -continueOnNonFatalErrors true"
-  environment(
+  command "su -c 'export ORACLE_BASE=#{ob}; \
+    export TNS_ADMIN=#{oh}/network/admin; #{oh}/bin/dbca -silent \
+    -responseFile #{oh}/assistants/dbca/dbca.rsp' - #{usr}"
+  not_if "#{oh}/bin/srvctl status database -#{arg} #{sid}", environment: {
     'ORACLE_HOME' => oh
-  )
-  user usr
-  group grp
-  cwd "#{oh}/bin"
-  umask '0022'
-  not_if "export ORACLE_HOME=#{oh}; \
-    #{oh}/bin/srvctl status database -#{arg} #{sid}"
+  }
 end

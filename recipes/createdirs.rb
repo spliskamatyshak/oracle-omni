@@ -46,3 +46,10 @@ directory node['oracle-omni']['rdbms']['oracle_home'] do
   mode '0775'
   recursive true
 end
+
+execute 'oracle_ownership' do
+  command "chown -R #{rusr}:#{rgrp} \
+  #{node['oracle-omni']['rdbms']['oracle_base']}"
+  not_if "ls -ld #{node['oracle-omni']['rdbms']['oracle_base']} \
+    | grep #{rusr} | grep -q #{rgrp}"
+end
