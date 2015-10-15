@@ -7,9 +7,17 @@
 # All rights reserved - Do Not Redistribute
 #
 
-cookbook_file '/etc/security/limits.d/99-grid.conf' do
-  source '99-grid.conf'
-  owner 'root'
-  group 'root'
-  mode '0644'
+(
+  node['oracle-omni']['grid']['user'],
+  node['oracle-omni']['rdbms']['user']
+).each do |usr|
+  template "/etc/security/limits.d/99-#{usr}.conf" do
+    source 'limits.conf.erb'
+    variables(
+      usr: usr
+    )
+    owner 'root'
+    group 'root'
+    mode '0644'
+  end
 end
