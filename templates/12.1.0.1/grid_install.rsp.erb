@@ -1,5 +1,5 @@
 ###############################################################################
-## Copyright(c) Oracle Corporation 1998,2014. All rights reserved.           ##
+## Copyright(c) Oracle Corporation 1998,2013. All rights reserved.           ##
 ##                                                                           ##
 ## Specify values for the variables listed below to customize                ##
 ## your installation.                                                        ##
@@ -51,12 +51,14 @@ oracle.install.responseFileVersion=/oracle/install/rspfmt_crsinstall_response_sc
 # and network interfaces)
 #-------------------------------------------------------------------------------
 ORACLE_HOSTNAME=<%= node['fqdn'] %>
+
 #-------------------------------------------------------------------------------
 # Specify the location which holds the inventory files.
 # This is an optional parameter if installing on  
 # Windows based Operating System.
 #-------------------------------------------------------------------------------
 INVENTORY_LOCATION=<%= node['oracle-omni']['oracle']['oracle_inventory'] %>
+
 #-------------------------------------------------------------------------------
 # Specify the languages in which the components will be installed.             
 # 
@@ -136,7 +138,6 @@ oracle.install.asm.OSDBA=asmdba
 #-------------------------------------------------------------------------------
 # The OPER_GROUP is the OS group which is to be granted OSOPER privileges.
 # The value to be specified for OSOPER group is optional.
-# Value should not be provided if configuring Client Cluster - i.e. storageOption=CLIENT_ASM_STORAGE.
 #-------------------------------------------------------------------------------
 oracle.install.asm.OSOPER=asmoper
 
@@ -245,7 +246,7 @@ oracle.install.crs.config.clusterNodes=
 
 #-------------------------------------------------------------------------------
 # The value should be a comma separated strings where each string is as shown below
-# InterfaceName:SubnetAddress:InterfaceType
+# InterfaceName:SubnetMask:InterfaceType
 # where InterfaceType can be either "1", "2", "3", "4", or "5"
 # InterfaceType stand for the following values
 #   - 1 : PUBLIC
@@ -259,6 +260,11 @@ oracle.install.crs.config.clusterNodes=
 #-------------------------------------------------------------------------------
 oracle.install.crs.config.networkInterfaceList=
 
+#-------------------------------------------------------------------------------
+# Specify 'true' if you would like to configure Management Database Option, else
+# specify 'false'
+#-------------------------------------------------------------------------------
+oracle.install.crs.managementdb.configure=
 
 ################################################################################
 #                                                                              #
@@ -271,7 +277,6 @@ oracle.install.crs.config.networkInterfaceList=
 # Disks files
 #   - LOCAL_ASM_STORAGE
 #   - FLEX_ASM_STORAGE
-#   - CLIENT_ASM_STORAGE
 #   - FILE_SYSTEM_STORAGE
 # If configuring a Flex Cluster, FLEX_ASM_STORAGE is the only allowed value 
 #-------------------------------------------------------------------------------
@@ -316,6 +321,7 @@ oracle.install.crs.config.useIPMI=
 #-------------------------------------------------------------------------------
 oracle.install.crs.config.ipmi.bmcUsername=
 oracle.install.crs.config.ipmi.bmcPassword=
+
 ################################################################################
 #                                                                              #
 #                                SECTION G - ASM                               #
@@ -390,11 +396,6 @@ oracle.install.asm.diskGroup.diskDiscoveryString=ORCL:*
 #-------------------------------------------------------------------------------
 oracle.install.asm.monitorPassword=<%= node['oracle-omni']['grid']['asm_password'] %>
 
-#-------------------------------------------------------------------------------
-# Applicable only if configuring CLIENT_ASM_STORAGE for OCR/Voting Disk storage
-# Specify the path to Client ASM Data file
-#-------------------------------------------------------------------------------
-oracle.install.asm.ClientDataFile=
 
 ################################################################################
 #                                                                              #
@@ -406,40 +407,71 @@ oracle.install.asm.ClientDataFile=
 # Value should be 'true' to ignore down nodes otherwise specify 'false'
 #-------------------------------------------------------------------------------
 oracle.install.crs.config.ignoreDownNodes=
-################################################################################
-#                                                                              #
-#                               MANAGEMENT OPTIONS                             #
-#                                                                              #
-################################################################################
 
-#-------------------------------------------------------------------------------
-# Specify the management option to use for managing Oracle Grid Infrastructure
-# Options are:
-# 1. CLOUD_CONTROL - If you want to manage your Oracle Grid Infrastructure with Enterprise Manager Cloud Control.
-# 2. NONE   -If you do not want to manage your Oracle Grid Infrastructure with Enterprise Manager Cloud Control.
-#-------------------------------------------------------------------------------
-oracle.install.config.managementOption=
+#------------------------------------------------------------------------------
+# Specify the auto-updates option. It can be one of the following:
+#   - MYORACLESUPPORT_DOWNLOAD
+#   - OFFLINE_UPDATES
+#   - SKIP_UPDATES
+#------------------------------------------------------------------------------
+oracle.installer.autoupdates.option=
 
-#-------------------------------------------------------------------------------
-# Specify the OMS host to connect to Cloud Control.
-# Applicable only when oracle.install.config.managementOption=CLOUD_CONTROL
-#-------------------------------------------------------------------------------
-oracle.install.config.omsHost=
+#------------------------------------------------------------------------------
+# In case MYORACLESUPPORT_DOWNLOAD option is chosen, specify the location where
+# the updates are to be downloaded.
+# In case OFFLINE_UPDATES option is chosen, specify the location where the updates
+# are present.
+#------------------------------------------------------------------------------
+oracle.installer.autoupdates.downloadUpdatesLoc=
 
-#-------------------------------------------------------------------------------
-# Specify the OMS port to connect to Cloud Control.
-# Applicable only when oracle.install.config.managementOption=CLOUD_CONTROL
-#-------------------------------------------------------------------------------
-oracle.install.config.omsPort=
+#------------------------------------------------------------------------------
+# Specify the My Oracle Support Account Username which has the patches download privileges  
+# to be used for software updates.
+#  Example   : AUTOUPDATES_MYORACLESUPPORT_USERNAME=abc@oracle.com
+#------------------------------------------------------------------------------
+AUTOUPDATES_MYORACLESUPPORT_USERNAME=
 
-#-------------------------------------------------------------------------------
-# Specify the EM Admin user name to use to connect to Cloud Control.
-# Applicable only when oracle.install.config.managementOption=CLOUD_CONTROL
-#-------------------------------------------------------------------------------
-oracle.install.config.emAdminUser=
+#------------------------------------------------------------------------------
+# Specify the My Oracle Support Account Username password which has the patches download privileges  
+# to be used for software updates.
+#
+# Example    : AUTOUPDATES_MYORACLESUPPORT_PASSWORD=password
+#------------------------------------------------------------------------------
+AUTOUPDATES_MYORACLESUPPORT_PASSWORD=
 
-#-------------------------------------------------------------------------------
-# Specify the EM Admin password to use to connect to Cloud Control.
-# Applicable only when oracle.install.config.managementOption=CLOUD_CONTROL
-#-------------------------------------------------------------------------------
-oracle.install.config.emAdminPassword=
+#------------------------------------------------------------------------------
+# Specify the Proxy server name. Length should be greater than zero.
+#
+# Example    : PROXY_HOST=proxy.domain.com 
+#------------------------------------------------------------------------------
+PROXY_HOST=
+
+#------------------------------------------------------------------------------
+# Specify the proxy port number. Should be Numeric and atleast 2 chars.
+#
+# Example    : PROXY_PORT=25 
+#------------------------------------------------------------------------------
+PROXY_PORT=
+
+#------------------------------------------------------------------------------
+# Specify the proxy user name. Leave PROXY_USER and PROXY_PWD 
+# blank if your proxy server requires no authentication.
+#
+# Example    : PROXY_USER=username 
+#------------------------------------------------------------------------------
+PROXY_USER=
+
+#------------------------------------------------------------------------------
+# Specify the proxy password. Leave PROXY_USER and PROXY_PWD  
+# blank if your proxy server requires no authentication.
+#
+# Example    : PROXY_PWD=password 
+#------------------------------------------------------------------------------
+PROXY_PWD=
+
+#------------------------------------------------------------------------------
+# Specify the proxy realm.
+#
+# Example    : PROXY_REALM=metalink
+#------------------------------------------------------------------------------
+PROXY_REALM=

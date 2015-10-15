@@ -78,7 +78,7 @@ end
 # Version and edition attributes
 
 default['oracle-omni']['rdbms']['version'] = '12.1.0.2'
-default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SO
+default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SEONE, SE2
 
 # Account configuration attributes
 
@@ -117,7 +117,7 @@ when '12.1.0.1'
     linuxamd64_12c_database_2of2.zip
   )
 when '12.1.0.2'
-  if node['oracle-omni']['rdbms']['edition'] == 'SE'
+  if node['oracle-omni']['rdbms']['edition'] == 'SE2'
     %w(
       linuxamd64_12102_database_se2_1of2.zip
       linuxamd64_12102_database_se2_2of2.zip
