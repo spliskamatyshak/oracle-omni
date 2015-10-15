@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-(
+[
   node['oracle-omni']['grid']['user'],
   node['oracle-omni']['rdbms']['user']
-).each do |usr|
+].each do |usr|
   template "/etc/security/limits.d/99-#{usr}.conf" do
     source 'limits.conf.erb'
     variables(
