@@ -36,7 +36,7 @@ end
 
 # Path configuration attributes
 
-default['oracle-omni']['oracle']['home_mount'] = nil
+default['oracle-omni']['oracle']['home_mount'] = '/u01'
 default['oracle-omni']['oracle']['ofa_base'] =
   "#{node['oracle-omni']['oracle']['home_mount']}/app"
 default['oracle-omni']['oracle']['oracle_inventory'] =
