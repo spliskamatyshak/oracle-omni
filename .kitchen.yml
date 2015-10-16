@@ -27,8 +27,9 @@ suites:
           home_mount: /u01
           files_url: http://192.168.1.114:8887
         rdbms:
-          version: 12.1.0.1
+          version: 11.2.0.4
           storage_type: ASM
+          edition: SE
         grid:
           device_prefix: sd
           ocr_disk: /dev/sdc
