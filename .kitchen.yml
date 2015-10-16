@@ -24,7 +24,6 @@ suites:
     attributes:
       oracle-omni:
         oracle:
-          home_mount: /u01
           files_url: http://192.168.1.114:8887
         rdbms:
           version: 11.2.0.4
