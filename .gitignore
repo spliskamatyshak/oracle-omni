@@ -21,3 +21,5 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
+
+.zedstate
