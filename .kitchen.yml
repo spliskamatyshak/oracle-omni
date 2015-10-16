@@ -31,6 +31,6 @@ suites:
           edition: EE
         grid:
           device_prefix: sd
-          ocr_disk: /dev/sdb
-          data_disk: /dev/sdc
-          log_disk: /dev/sdd
+          ocr_disk: /dev/sdc
+          data_disk: /dev/sdd
+          log_disk: /dev/sde
