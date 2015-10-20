@@ -14,23 +14,18 @@ suites:
   - name: default
     run_list:
 
-      - recipe[oracle-omni::prephost]
-      - recipe[oracle-omni::installgi]
-      - recipe[oracle-omni::installrdbms]
-      - recipe[oracle-omni::configureasm]
-      - recipe[oracle-omni::createdbdgs]
-      - recipe[oracle-omni::createdb]
+      - recipe[oracle-omni]
 
     attributes:
       oracle-omni:
         oracle:
-          files_url: http://192.168.1.114:8887
+          files_url: http://3.62.72.4
         rdbms:
-          version: 11.2.0.4
+          version: 12.1.0.2
           storage_type: ASM
           edition: EE
         grid:
           device_prefix: sd
-          ocr_disk: /dev/sdc
-          data_disk: /dev/sdd
-          log_disk: /dev/sde
+          ocr_disk: /dev/sdb
+          data_disk: /dev/sdc
+          log_disk: /dev/sdd
