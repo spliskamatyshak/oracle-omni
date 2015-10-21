@@ -49,6 +49,8 @@ default['oracle-omni']['oracle']['patch_dir'] =
 # Installation attributes
 
 default['oracle-omni']['oracle']['files_url'] = nil
+default['oracle-omni']['oracle']['clone_homes'] = false
+default['oracle-omni']['oracle']['clone_url'] = nil
 
 default['oracle-omni']['oracle']['patch_files'] =
 case node['oracle-omni']['rdbms']['version']
@@ -130,6 +132,8 @@ when '12.1.0.2'
   end
 end
 
+default['oracle-omni']['rdbms']['clone_file'] = nil
+
 # Database creation attributes
 
 default['oracle-omni']['rdbms']['sid'] = 'orcl'
@@ -183,6 +187,8 @@ when '12.1.0.2'
     linuxamd64_12102_grid_2of2.zip
   )
 end
+
+default['oracle-omni']['grid']['clone_file'] = nil
 
 default['oracle-omni']['grid']['cvuqdisk_rpm'] = 'cvuqdisk-1.0.9-1.rpm'
 
