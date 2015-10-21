@@ -58,6 +58,12 @@ execute 'clone_home' do
   not_if "grep -q \"#{oh}\" #{inv}/ContentsXML/inventory.xml"
 end
 
+execute 'run_roothas' do
+  command "#{oh}/perl/bin/perl -I#{oh}/perl/lib -I#{oh}/crs/install \
+    #{oh}/crs/install/roothas.pl "
+    not_if "#{oh}/bin/crsctl check has", user: usr
+end
+
 execute 'run_orainstRoot' do
   command "#{inv}/orainstRoot.sh"
   user 'root'

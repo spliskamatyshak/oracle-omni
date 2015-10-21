@@ -11,6 +11,11 @@
 # oracle attributes
 ###############################################################################
 
+# Version and edition attributes
+
+default['oracle-omni']['rdbms']['version'] = '12.1.0.2'
+default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SEONE, SE2
+
 # RPM attributes
 
 default['oracle-omni']['oracle']['preinstall_rpm'] =
