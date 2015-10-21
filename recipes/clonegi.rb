@@ -9,7 +9,7 @@
 
 dir = node['oracle-omni']['oracle']['install_dir']
 url = node['oracle-omni']['oracle']['clone_url']
-file = node['oracle-omni']['grid']['clone_file']
+file = File.basename(node['oracle-omni']['grid']['clone_file'])
 oh = node['oracle-omni']['grid']['oracle_home']
 ob = node['oracle-omni']['rdbms']['oracle_base']
 inv = node['oracle-omni']['oracle']['oracle_inventory']
@@ -21,15 +21,15 @@ remote_file "#{dir}/#{file}" do
   owner usr
   group grp
   mode '0644'
-  source "#{url}/#{file}"
-  not_if { File.exist?("#{oh}/bin") }
+  source "#{url}/#{node['oracle-omni']['grid']['clone_file']}"
+  not_if { File.directory?("#{oh}/bin") }
 end
 
 # Unpack tarball
 execute 'untar_grid' do
   command "tar -zxf #{dir}/#{file}"
   cwd oh
-  not_if { File.exist?("#{oh}/bin") }
+  not_if { File.directory?("#{oh}/bin") }
 end
 
 # Remove tarball
@@ -38,7 +38,7 @@ file "#{dir}/#{file}" do
   owner usr
   group grp
   only_if { File.exist?("#{dir}/#{file}") }
-  only_if { File.exist?("#{oh}/bin") }
+  only_if { File.directory?("#{oh}/bin") }
 end
 
 execute 'clean_home' do

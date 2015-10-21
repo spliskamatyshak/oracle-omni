@@ -8,12 +8,27 @@
 #
 
 include_recipe 'oracle-omni::prephost'
-include_recipe 'oracle-omni::installgi' if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
-include_recipe 'oracle-omni::installrdbms'
+
+if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
+  if node['oracle-omni']['oracle']['clone_homes']
+    include_recipe 'oracle-omni::clonegi'
+  else
+    include_recipe 'oracle-omni::installgi'
+  end
+end
+
+if node['oracle-omni']['oracle']['clone_homes']
+  include_recipe 'oracle-omni::clonerdbms'
+else
+  include_recipe 'oracle-omni::installrdbms'
+end
+
 include_recipe 'oracle-omni::configureasm' if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
+
 if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
   include_recipe 'oracle-omni::createdbdgs'
 else
   include_recipe 'oracle-omni::createmtpts'
 end
+
 include_recipe 'oracle-omni::createdb'
