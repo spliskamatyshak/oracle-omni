@@ -56,6 +56,7 @@ default['oracle-omni']['oracle']['patch_dir'] =
 default['oracle-omni']['oracle']['files_url'] = nil
 default['oracle-omni']['oracle']['clone_homes'] = false
 default['oracle-omni']['oracle']['clone_url'] = nil
+default['oracle-omni']['oracle']['fast_clone'] = false
 
 default['oracle-omni']['oracle']['patch_files'] =
 case node['oracle-omni']['rdbms']['version']
@@ -81,11 +82,6 @@ end
 ###############################################################################
 # rdbms attributes
 ###############################################################################
-
-# Version and edition attributes
-
-default['oracle-omni']['rdbms']['version'] = '12.1.0.2'
-default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SEONE, SE2
 
 # Account configuration attributes
 

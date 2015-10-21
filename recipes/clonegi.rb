@@ -16,29 +16,33 @@ inv = node['oracle-omni']['oracle']['oracle_inventory']
 usr = node['oracle-omni']['grid']['user']
 grp = node['oracle-omni']['grid']['groups'].keys.first
 
-# Download GI tarball
-remote_file "#{dir}/#{file}" do
-  owner usr
-  group grp
-  mode '0644'
-  source "#{url}/#{node['oracle-omni']['grid']['clone_file']}"
-  not_if { File.directory?("#{oh}/bin") }
-end
+unless node['oracle-omni']['oracle']['fast_clone']
 
-# Unpack tarball
-execute 'untar_grid' do
-  command "tar -zxf #{dir}/#{file}"
-  cwd oh
-  not_if { File.directory?("#{oh}/bin") }
-end
+  # Download GI tarball
+  remote_file "#{dir}/#{file}" do
+    owner usr
+    group grp
+    mode '0644'
+    source "#{url}/#{node['oracle-omni']['grid']['clone_file']}"
+    not_if { File.directory?("#{oh}/bin") }
+  end
 
-# Remove tarball
-file "#{dir}/#{file}" do
-  action :delete
-  owner usr
-  group grp
-  only_if { File.exist?("#{dir}/#{file}") }
-  only_if { File.directory?("#{oh}/bin") }
+  # Unpack tarball
+  execute 'untar_grid' do
+    command "tar -zxf #{dir}/#{file}"
+    cwd oh
+    not_if { File.directory?("#{oh}/bin") }
+  end
+
+  # Remove tarball
+  file "#{dir}/#{file}" do
+    action :delete
+    owner usr
+    group grp
+    only_if { File.exist?("#{dir}/#{file}") }
+    only_if { File.directory?("#{oh}/bin") }
+  end
+
 end
 
 execute 'clean_home' do
@@ -60,8 +64,8 @@ end
 
 execute 'run_roothas' do
   command "#{oh}/perl/bin/perl -I#{oh}/perl/lib -I#{oh}/crs/install \
-    #{oh}/crs/install/roothas.pl "
-    not_if "#{oh}/bin/crsctl check has", user: usr
+    #{oh}/crs/install/roothas.pl"
+  not_if { File.exist?("#{oh}/bin/crsctl") }
 end
 
 execute 'run_orainstRoot' do
