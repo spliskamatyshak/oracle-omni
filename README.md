@@ -20,6 +20,7 @@ This recipe installs and configures grid infrastructure and rdbms software based
 | ['oracle-omni']['rdbms']['version'] | String | The version of the RDBMS to install | 12.1.0.2 |
 | ['oracle-omni']['rdbms']['edition'] | String | The edition of the RDBMS to install | EE |
 | ['oracle-omni']['oracle']['files_url'] | String | URL where files media is stored (must be set unless using snapshot disks for cloning homes) | nil |
+| ['oracle-omni']['oracle']['clone_homes'] | String | Whether to clone homes rather than install | false |
 
 #### oracle-omni::prephost
 This recipe prepares a host for the installation of Oracle software.
@@ -69,18 +70,10 @@ These recipes to clone a grid infrastructure home or install one on a host.
 
 _These recipes are included in **default**._
 
-| Key | Type | Description | Default |
-|---|---|---|---|
-| ['oracle-omni']['oracle']['clone_homes'] | String | Whether to clone homes rather than install | false |
-
 #### oracle-omni::clonerdbms or oracle-omni::installrdbms
 These recipes to clone a rdbms home or install one on a host.
 
 _These recipes are included in **default**._
-
-| Key | Type | Description | Default |
-|---|---|---|---|
-| ['oracle-omni']['oracle']['clone_homes'] | String | Whether to clone homes rather than install | false |
 
 ### oracle-omni::makeuek
 This recipe is intended to be run prior to the default recipe in the case you have CentOS 6 (requires 2 reboots) or Oracle Linux 6 (requires 1 reboot) that is not UEK and wish to convert it to Oracle Linux UEK.
