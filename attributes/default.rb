@@ -55,8 +55,6 @@ default['oracle-omni']['oracle']['patch_dir'] =
 
 default['oracle-omni']['oracle']['files_url'] = nil
 default['oracle-omni']['oracle']['clone_homes'] = false
-default['oracle-omni']['oracle']['clone_url'] = nil
-default['oracle-omni']['oracle']['fast_clone'] = false
 
 default['oracle-omni']['oracle']['patch_files'] =
 case node['oracle-omni']['rdbms']['version']

@@ -8,7 +8,7 @@
 #
 
 dir = node['oracle-omni']['oracle']['install_dir']
-url = node['oracle-omni']['oracle']['clone_url']
+url = node['oracle-omni']['oracle']['files_url']
 file = File.basename(node['oracle-omni']['rdbms']['clone_file'])
 oh = node['oracle-omni']['rdbms']['oracle_home']
 ob = node['oracle-omni']['rdbms']['oracle_base']
@@ -16,7 +16,7 @@ inv = node['oracle-omni']['oracle']['oracle_inventory']
 usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
 
-unless node['oracle-omni']['oracle']['fast_clone']
+unless url == nil
 
   # Download RDBMS tarball
   remote_file "#{dir}/#{file}" do
