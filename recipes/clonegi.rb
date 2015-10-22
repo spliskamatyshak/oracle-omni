@@ -16,7 +16,7 @@ inv = node['oracle-omni']['oracle']['oracle_inventory']
 usr = node['oracle-omni']['grid']['user']
 grp = node['oracle-omni']['grid']['groups'].keys.first
 
-unless url == nil
+unless url.nil?
 
   # Download GI tarball
   remote_file "#{dir}/#{file}" do

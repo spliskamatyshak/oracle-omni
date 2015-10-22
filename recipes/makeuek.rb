@@ -50,7 +50,7 @@ when 5, 6
       reboot 'olkernel2uek_reboot' do
         action :reboot_now
       end
-      
+
     end
   end
 else

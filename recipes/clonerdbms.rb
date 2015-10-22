@@ -16,7 +16,7 @@ inv = node['oracle-omni']['oracle']['oracle_inventory']
 usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
 
-unless url == nil
+unless url.nil?
 
   # Download RDBMS tarball
   remote_file "#{dir}/#{file}" do
