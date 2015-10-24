@@ -15,28 +15,28 @@ oh = node['oracle-omni']['rdbms']['oracle_home']
 inv = node['oracle-omni']['oracle']['oracle_inventory']
 url = node['oracle-omni']['oracle']['files_url']
 op = node['oracle-omni']['oracle']['opatch']
-# pdir = node['oracle-omni']['oracle']['patch_dir']
 
 node['oracle-omni']['rdbms']['install_files'].each do |zip_file|
-  remote_file "#{dir}/#{zip_file}" do
+  remote_file "#{dir}/#{File.basename(zip_file)}" do
     source "#{url}/#{zip_file}"
     user usr
     group grp
-    not_if { File.exist?("#{dir}/#{zip_file}") }
+    not_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
     not_if { File.directory?("#{rdir}/stage/Components/oracle.rdbms") }
+    not_if { File.directory?(oh) }
   end
   execute "unzip_media_#{zip_file}" do
     command "unzip -n #{File.basename(zip_file)}"
     user usr
     group grp
     cwd dir
-    not_if { File.directory?("#{rdir}/stage/Components/oracle.rdbms") }
+    only_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
   end
-  file "#{dir}/#{zip_file}" do
+  file "#{dir}/#{File.basename(zip_file)}" do
     owner usr
     group grp
     action :delete
-    only_if { File.exist?("#{dir}/#{zip_file}") }
+    only_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
   end
 end
 
@@ -51,6 +51,7 @@ template "#{rdir}/response/db_install.rsp" do
   user usr
   group grp
   mode '0644'
+  only_if { File.directory?(rdir) }
 end
 
 execute 'rdbms_install' do
@@ -97,4 +98,11 @@ execute "unzip_#{op}" do
   group grp
   cwd oh
   not_if { File.directory?("#{oh}/OPatch") }
+end
+
+execute 'clean_rdbms_media' do
+  command "rm -rf #{rdir}"
+  user usr
+  group grp
+  only_if { File.directory?(rdir) }
 end

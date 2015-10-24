@@ -1,8 +1,6 @@
 ---
 driver:
   name: vagrant
-  customize:
-    memory: 3072
 
 provisioner:
   name: chef_zero
@@ -21,9 +19,7 @@ suites:
         oracle:
           files_url: http://3.62.72.4
         rdbms:
-          version: 12.1.0.2
           storage_type: ASM
-          edition: EE
         grid:
           device_prefix: sd
           ocr_disk: /dev/sdb

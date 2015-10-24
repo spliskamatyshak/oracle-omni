@@ -56,17 +56,14 @@ default['oracle-omni']['oracle']['patch_dir'] =
 default['oracle-omni']['oracle']['files_url'] = nil
 default['oracle-omni']['oracle']['clone_homes'] = false
 
-default['oracle-omni']['oracle']['patch_files'] =
+default['oracle-omni']['oracle']['patch_file'] =
 case node['oracle-omni']['rdbms']['version']
 when '11.2.0.4'
-  %w(
-    p20760982_112040_Linux-x86-64.zip
-    p21068539_112040_Linux-x86-64.zip
-  )
+  'p21523375_112040_Linux-x86-64.zip'
 when '12.1.0.1'
-  %w(p21150817_121010_Linux-x86-64.zip)
+  'p21744328_121010_Linux-x86-64.zip'
 when '12.1.0.2'
-  %w(p21150782_121020_Linux-x86-64.zip)
+  'p21523234_121020_Linux-x86-64.zip'
 end
 
 default['oracle-omni']['oracle']['opatch'] =
