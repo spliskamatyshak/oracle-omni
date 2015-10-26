@@ -14,6 +14,7 @@ if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
     include_recipe 'oracle-omni::clonegi'
   else
     include_recipe 'oracle-omni::installgi'
+    include_recipe 'oracle-omni::configureasm'
   end
 end
 
@@ -22,8 +23,6 @@ if node['oracle-omni']['oracle']['clone_homes']
 else
   include_recipe 'oracle-omni::installrdbms'
 end
-
-include_recipe 'oracle-omni::configureasm' if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
 
 if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
   include_recipe 'oracle-omni::createdbdgs'

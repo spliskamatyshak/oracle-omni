@@ -24,7 +24,7 @@ end
 
 execute 'generate_ocm_rsp' do
   command 'echo Y > ans; $ORACLE_HOME/OPatch/ocm/bin/emocmrsp \
-    -no_banner < ans `echo -e \\\\\\r`; chmod 775 ocm.rsp'
+    -no_banner < ans `echo -ne \\\\\\r`; chmod 775 ocm.rsp'
   environment(
     'ORACLE_HOME' => oh
   )

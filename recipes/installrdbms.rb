@@ -23,7 +23,7 @@ node['oracle-omni']['rdbms']['install_files'].each do |zip_file|
     group grp
     not_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
     not_if { File.directory?("#{rdir}/stage/Components/oracle.rdbms") }
-    not_if { File.directory?(oh) }
+    not_if { File.directory?("#{oh}/bin") }
   end
   execute "unzip_media_#{zip_file}" do
     command "unzip -n #{File.basename(zip_file)}"
