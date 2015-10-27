@@ -22,24 +22,20 @@ else
   'opatchauto apply'
 end
 
-execute 'generate_ocm_rsp' do
-  command 'echo Y > ans; $ORACLE_HOME/OPatch/ocm/bin/emocmrsp \
-    -no_banner < ans `echo -ne \\\\\\r`; chmod 775 ocm.rsp'
-  environment(
-    'ORACLE_HOME' => oh
-  )
-  user usr
-  group grp
-  cwd pdir
-  not_if { File.exist?("#{pdir}/ocm.rsp") }
-end
-
-remote_file "#{pdir}/#{pch}" do
-  action :create_if_missing
+cookbook_file "#{pdir}/ocm.rsp" do
+  source 'ocm.rsp'
   owner usr
   group grp
   mode '0644'
+  action :create_if_missing
+end
+
+remote_file "#{pdir}/#{pch}" do
   source "#{url}/#{node['oracle-omni']['oracle']['patch_file']}"
+  owner usr
+  group grp
+  mode '0644'
+  action :create_if_missing
 end
 
 execute 'unzip_patch' do
@@ -47,15 +43,14 @@ execute 'unzip_patch' do
   user usr
   group grp
   cwd pdir
-  not_if { File.directory?("#{pdir}/pnm") }
+  not_if { File.directory?("#{pdir}/#{pnm}") }
 end
 
 execute 'patch_homes' do
-  command "#{pch_cmd} #{pdir}/#{pnm} -ocmrf #{pdir}/ocm.rsp"
+  command "#{pch_cmd} -ocmrf #{pdir}/ocm.rsp"
   environment(
     'PATH' => "$PATH:#{oh}/OPatch"
   )
   user 'root'
-  group 'root'
-  not_if "#{oh}/OPatch/opatch lsinventory -oh #{oh} | grep #{pnm}", user: usr
+  cwd "#{pdir}/#{pnm}"
 end
