@@ -47,10 +47,10 @@ execute 'unzip_patch' do
 end
 
 execute 'patch_homes' do
-  command "#{pch_cmd} -ocmrf #{pdir}/ocm.rsp"
+  command "#{pch_cmd} #{pdir}/#{pnm} -ocmrf #{pdir}/ocm.rsp"
   environment(
     'PATH' => "$PATH:#{oh}/OPatch"
   )
   user 'root'
-  cwd "#{pdir}/#{pnm}"
+  group 'root'
 end
