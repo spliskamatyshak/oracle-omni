@@ -49,7 +49,7 @@ end
 execute 'patch_homes' do
   command "#{pch_cmd} #{pdir}/#{pnm} -ocmrf #{pdir}/ocm.rsp"
   environment(
-    'PATH' => "$PATH:#{oh}/OPatch"
+    'PATH' => "#{ENV['PATH']}:#{oh}/OPatch"
   )
   user 'root'
   group 'root'

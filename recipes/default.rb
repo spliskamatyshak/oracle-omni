@@ -15,6 +15,7 @@ if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
   else
     include_recipe 'oracle-omni::installgi'
     include_recipe 'oracle-omni::configureasm'
+    include_recipe 'oracle-omni::patchgi'
   end
 end
 
