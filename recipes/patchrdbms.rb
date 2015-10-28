@@ -11,9 +11,9 @@ url = node['oracle-omni']['oracle']['files_url']
 pdir = node['oracle-omni']['oracle']['patch_dir']
 pch = File.basename(node['oracle-omni']['oracle']['patch_file'])
 pnm = pch.slice(1, 8)
-oh = node['oracle-omni']['grid']['oracle_home']
-usr = node['oracle-omni']['grid']['user']
-grp = node['oracle-omni']['grid']['groups'].keys.first
+oh = node['oracle-omni']['rdbms']['oracle_home']
+usr = node['oracle-omni']['rdbms']['user']
+grp = node['oracle-omni']['rdbms']['groups'].keys.first
 pch_cmd =
 case node['oracle-omni']['rdbms']['version']
 when '11.2.0.4'

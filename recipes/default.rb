@@ -23,6 +23,7 @@ if node['oracle-omni']['oracle']['clone_homes']
   include_recipe 'oracle-omni::clonerdbms'
 else
   include_recipe 'oracle-omni::installrdbms'
+  include_recipe 'oracle-omni::patchrdbms'
 end
 
 if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
