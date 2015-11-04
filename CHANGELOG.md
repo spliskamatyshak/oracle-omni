@@ -3,6 +3,10 @@ oracle-omni CHANGELOG
 
 This file is used to list changes made in each version of the oracle-omni cookbook.
 
+0.1.2
+-----
+- [Stephen Pliska-Matyshak] - Fix string concatenation
+
 0.1.1
 -----
 - [Stephen Pliska-Matyshak] - Account for multiple device prefixes for ASM
