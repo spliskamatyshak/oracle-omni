@@ -3,6 +3,10 @@ oracle-omni CHANGELOG
 
 This file is used to list changes made in each version of the oracle-omni cookbook.
 
+0.1.1
+-----
+- [Stephen Pliska-Matyshak] - Account for multiple device prefixes for ASM
+
 0.1.0
 -----
 - [Stephen Pliska-Matyshak] - Initial release of oracle-omni
