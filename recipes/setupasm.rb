@@ -7,11 +7,17 @@
 # All rights reserved - Do Not Redistribute
 #
 
+prefix = nil
+
+node['oracle-omni']['grid']['device_prefix'].each do |dev|
+  prefix = prefix + "-o #{dev} "
+end
+
 execute 'configure_asm' do
   command "/usr/sbin/oracleasm configure -e \
   -u #{node['oracle-omni']['grid']['user']} \
   -g #{node['oracle-omni']['grid']['groups'].keys[3]} \
-  -s y -e -o #{node['oracle-omni']['grid']['device_prefix']}"
+  -s y -e #{prefix}"
 end
 
 execute 'init_asm' do
