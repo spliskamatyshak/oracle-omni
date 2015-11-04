@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-prefix = nil
+prefix = ''
 
 node['oracle-omni']['grid']['device_prefix'].each do |dev|
-  prefix = prefix + "-o #{dev} "
+  prefix += "-o #{dev} "
 end
 
 execute 'configure_asm' do
