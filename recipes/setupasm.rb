@@ -26,6 +26,7 @@ end
 
 parted_disk node['oracle-omni']['grid']['ocr_disk'] do
   action :mkpart
+  not_if { node['oracle-omni']['grid']['ocr_disk'].include? 'md' }
 end
 
 execute 'create_ASM_ocr' do
@@ -38,6 +39,7 @@ end
 
 parted_disk node['oracle-omni']['grid']['data_disk'] do
   action :mkpart
+  not_if { node['oracle-omni']['grid']['data_disk'].include? 'md' }
 end
 
 execute 'create_ASM_data' do
@@ -50,6 +52,7 @@ end
 
 parted_disk node['oracle-omni']['grid']['log_disk'] do
   action :mkpart
+  not_if { node['oracle-omni']['grid']['log_disk'].include? 'md' }
 end
 
 execute 'create_ASM_log' do
