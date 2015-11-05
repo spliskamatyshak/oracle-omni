@@ -29,12 +29,14 @@ parted_disk node['oracle-omni']['grid']['ocr_disk'] do
   not_if { node['oracle-omni']['grid']['ocr_disk'].include? 'md' }
 end
 
+part_no = node['oracle-omni']['grid']['ocr_disk']['md'] ? '' : '1'
+
 execute 'create_ASM_ocr' do
   command "/usr/sbin/oracleasm createdisk OCR \
   #{node['oracle-omni']['grid']['ocr_disk']}1"
   retries 3
   retry_delay 20
-  not_if 'usr/sbin/oracleasm listdisks | grep -q OCR'
+  not_if '/usr/sbin/oracleasm listdisks | grep -q OCR'
 end
 
 parted_disk node['oracle-omni']['grid']['data_disk'] do
@@ -42,12 +44,14 @@ parted_disk node['oracle-omni']['grid']['data_disk'] do
   not_if { node['oracle-omni']['grid']['data_disk'].include? 'md' }
 end
 
+part_no = node['oracle-omni']['grid']['data_disk']['md'] ? '' : '1'
+
 execute 'create_ASM_data' do
   command "/usr/sbin/oracleasm createdisk DATA \
-  #{node['oracle-omni']['grid']['data_disk']}1"
+  #{node['oracle-omni']['grid']['data_disk']}#{part_no}"
   retries 3
   retry_delay 20
-  not_if 'usr/sbin/oracleasm listdisks | grep -q DATA'
+  not_if '/usr/sbin/oracleasm listdisks | grep -q DATA'
 end
 
 parted_disk node['oracle-omni']['grid']['log_disk'] do
@@ -55,10 +59,12 @@ parted_disk node['oracle-omni']['grid']['log_disk'] do
   not_if { node['oracle-omni']['grid']['log_disk'].include? 'md' }
 end
 
+part_no = node['oracle-omni']['grid']['log_disk']['md'] ? '' : '1'
+
 execute 'create_ASM_log' do
   command "/usr/sbin/oracleasm createdisk LOG \
-  #{node['oracle-omni']['grid']['log_disk']}1"
+  #{node['oracle-omni']['grid']['log_disk']}#{part_no}"
   retries 3
   retry_delay 20
-  not_if 'usr/sbin/oracleasm listdisks | grep -q LOG'
+  not_if '/usr/sbin/oracleasm listdisks | grep -q LOG'
 end
