@@ -3,6 +3,10 @@ oracle-omni CHANGELOG
 
 This file is used to list changes made in each version of the oracle-omni cookbook.
 
+0.1.5
+-----
+- [Stephen Pliska-Matyshak] - configureasm after clonegi as well
+
 0.1.4
 -----
 - [Stephen Pliska-Matyshak] - More account for raid devices in setupasm
