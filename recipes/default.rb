@@ -12,6 +12,7 @@ include_recipe 'oracle-omni::prephost'
 if node['oracle-omni']['rdbms']['storage_type'] == 'ASM'
   if node['oracle-omni']['oracle']['clone_homes']
     include_recipe 'oracle-omni::clonegi'
+    include_recipe 'oracle-omni::configureasm'
   else
     include_recipe 'oracle-omni::installgi'
     include_recipe 'oracle-omni::configureasm'
