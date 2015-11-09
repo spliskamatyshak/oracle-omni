@@ -3,6 +3,10 @@ oracle-omni CHANGELOG
 
 This file is used to list changes made in each version of the oracle-omni cookbook.
 
+0.1.6
+-----
+- [Stephen Pliska-Matyshak] - adjust kernel.panic & vm.swappiness
+
 0.1.5
 -----
 - [Stephen Pliska-Matyshak] - configureasm after clonegi as well

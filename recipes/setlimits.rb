@@ -21,3 +21,12 @@
     mode '0644'
   end
 end
+
+execute 'set_kernel_panic' do
+  command 'sysctl -w kernel.panic=1'
+end
+
+execute 'set_swappiness' do
+  command 'sysctl -w vm.swappiness=100'
+end
+
