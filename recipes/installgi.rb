@@ -48,7 +48,7 @@ template '/etc/oraInst.loc' do
   mode '0644'
 end
 
-template "#{dir}/response/grid_install.rsp" do
+template "#{dir}/grid_install.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/grid_install.rsp.erb"
   user usr
   group grp
@@ -63,7 +63,7 @@ end
 execute 'gi_install' do
   command "su -c '#{gdir}/runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{dir}/response/grid_install.rsp' - #{usr}"
+  -responseFile #{dir}/grid_install.rsp' - #{usr}"
   environment(
     'TMP' => '/tmp',
     'TMPDIR' => '/tmp',

@@ -13,14 +13,6 @@ usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
 sid = node['oracle-omni']['rdbms']['sid']
 
-arg =
-case node['oracle-omni']['rdbms']['version'].to_i
-when 11
-  'd'
-when 12
-  'db'
-end
-
 template "#{oh}/assistants/dbca/dbca.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/dbca.rsp.erb"
   owner usr
@@ -46,7 +38,7 @@ execute 'create_db' do
   command "su -c 'export ORACLE_BASE=#{ob}; \
     export TNS_ADMIN=#{oh}/network/admin; #{oh}/bin/dbca -silent \
     -responseFile #{oh}/assistants/dbca/dbca.rsp' - #{usr}"
-  not_if "#{oh}/bin/srvctl status database -#{arg} #{sid}", environment: {
+  not_if "#{oh}/bin/srvctl status database -d #{sid}", environment: {
     'ORACLE_HOME' => oh
   }
 end

@@ -16,9 +16,8 @@ inv = node['oracle-omni']['oracle']['oracle_inventory']
 usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
 
+# Download RDBMS tarball
 unless url.nil?
-
-  # Download RDBMS tarball
   remote_file "#{dir}/#{file}" do
     owner usr
     group grp
@@ -26,23 +25,24 @@ unless url.nil?
     source "#{url}/#{node['oracle-omni']['rdbms']['clone_file']}"
     not_if { File.directory?("#{oh}/bin") }
   end
+end
 
-  # Unpack tarball
-  execute 'untar_rdbms' do
-    command "tar -zxf #{dir}/#{file}"
-    cwd oh
-    not_if { File.directory?("#{oh}/bin") }
-  end
+# Unpack tarball
+execute 'untar_rdbms' do
+  command "tar -zxf #{dir}/#{file}"
+  cwd oh
+  not_if { File.directory?("#{oh}/bin") }
+  only_if { File.exist?("#{dir}/#{file}") }
+end
 
-  # Remove tarball
-  file "#{dir}/#{file}" do
-    action :delete
-    owner usr
-    group grp
-    only_if { File.exist?("#{dir}/#{file}") }
-    only_if { File.directory?("#{oh}/bin") }
-  end
-
+# Remove tarball
+file "#{dir}/#{file}" do
+  action :delete
+  owner usr
+  group grp
+  only_if { File.exist?("#{dir}/#{file}") }
+  only_if { File.directory?("#{oh}/bin") }
+  not_if { url.nil? }
 end
 
 execute 'clean_home' do

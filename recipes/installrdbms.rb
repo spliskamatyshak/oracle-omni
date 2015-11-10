@@ -49,7 +49,7 @@ template '/etc/oraInst.loc' do
   not_if { File.exist?('/etc/oraInst.loc') }
 end
 
-template "#{dir}/response/db_install.rsp" do
+template "#{dir}/db_install.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/db_install.rsp.erb"
   user usr
   group grp
@@ -59,7 +59,7 @@ end
 execute 'rdbms_install' do
   command "su -c '#{rdir}/runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{dir}/response/db_install.rsp' - #{usr}"
+  -responseFile #{dir}/db_install.rsp' - #{usr}"
   environment(
     'TMP' => '/tmp',
     'TMPDIR' => '/tmp',
