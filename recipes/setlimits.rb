@@ -29,4 +29,3 @@ end
 execute 'set_swappiness' do
   command 'sysctl -w vm.swappiness=100'
 end
-

@@ -50,6 +50,7 @@ default['oracle-omni']['oracle']['install_dir'] =
   "#{node['oracle-omni']['oracle']['ofa_base']}/install"
 default['oracle-omni']['oracle']['patch_dir'] =
   "#{node['oracle-omni']['oracle']['install_dir']}/patches"
+default['oracle-omni']['oracle']['opatch_loc'] = nil
 
 # Installation attributes
 

@@ -11,6 +11,7 @@ url = node['oracle-omni']['oracle']['files_url']
 pdir = node['oracle-omni']['oracle']['patch_dir']
 pch = File.basename(node['oracle-omni']['oracle']['patch_file'])
 pnm = pch.slice(1, 8)
+op_loc = node['oracle-omni']['oracle']['opatch_loc']
 oh = node['oracle-omni']['rdbms']['oracle_home']
 usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
@@ -30,12 +31,22 @@ cookbook_file "#{pdir}/ocm.rsp" do
   action :create_if_missing
 end
 
-remote_file "#{pdir}/#{pch}" do
-  source "#{url}/#{node['oracle-omni']['oracle']['patch_file']}"
-  owner usr
-  group grp
-  mode '0644'
-  action :create_if_missing
+if url.nil?
+  execute 'copy_patch' do
+    command "cp #{op_loc}/#{node['oracle-omni']['oracle']['patch_file']} #{pdir}"
+    user usr
+    group grp
+    not_if { op_loc.nil? }
+    not_if { File.exist?("#{pdir}/#{pch}") }
+  end
+else
+  remote_file "#{pdir}/#{pch}" do
+    source "#{url}/#{node['oracle-omni']['oracle']['patch_file']}"
+    owner usr
+    group grp
+    mode '0644'
+    action :create_if_missing
+  end
 end
 
 execute 'unzip_patch' do
@@ -53,4 +64,5 @@ execute 'patch_homes' do
   )
   user 'root'
   group 'root'
+  only_if { File.directory?("#{pdir}/#{pnm}") }
 end

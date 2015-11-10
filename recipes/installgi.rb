@@ -15,28 +15,31 @@ oh = node['oracle-omni']['grid']['oracle_home']
 inv = node['oracle-omni']['oracle']['oracle_inventory']
 url = node['oracle-omni']['oracle']['files_url']
 op = node['oracle-omni']['oracle']['opatch']
+op_loc = node['oracle-omni']['oracle']['opatch_loc']
 
-node['oracle-omni']['grid']['install_files'].each do |zip_file|
-  remote_file "#{dir}/#{File.basename(zip_file)}" do
-    source "#{url}/#{zip_file}"
-    user usr
-    group grp
-    not_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
-    not_if { File.exist?("#{gdir}/install/.oui") }
-    not_if { File.directory?("#{oh}/bin") }
-  end
-  execute "unzip_media_#{zip_file}" do
-    command "unzip -n #{File.basename(zip_file)}"
-    user usr
-    group grp
-    cwd dir
-    only_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
-  end
-  file "#{dir}/#{zip_file}" do
-    owner usr
-    group grp
-    action :delete
-    only_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
+unless url.nil?
+  node['oracle-omni']['grid']['install_files'].each do |zip_file|
+    remote_file "#{dir}/#{File.basename(zip_file)}" do
+      source "#{url}/#{zip_file}"
+      user usr
+      group grp
+      not_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
+      not_if { File.exist?("#{gdir}/install/.oui") }
+      not_if { File.directory?("#{oh}/bin") }
+    end
+    execute "unzip_media_#{zip_file}" do
+      command "unzip -n #{File.basename(zip_file)}"
+      user usr
+      group grp
+      cwd dir
+      only_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
+    end
+    file "#{dir}/#{zip_file}" do
+      owner usr
+      group grp
+      action :delete
+      only_if { File.exist?("#{dir}/#{File.basename(zip_file)}") }
+    end
   end
 end
 
@@ -45,12 +48,11 @@ template '/etc/oraInst.loc' do
   mode '0644'
 end
 
-template "#{gdir}/response/grid_install.rsp" do
+template "#{dir}/response/grid_install.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/grid_install.rsp.erb"
   user usr
   group grp
   mode '0644'
-  only_if { File.directory?(gdir) }
 end
 
 yum_package 'cvuqdisk' do
@@ -61,7 +63,7 @@ end
 execute 'gi_install' do
   command "su -c '#{gdir}/runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{gdir}/response/grid_install.rsp' - #{usr}"
+  -responseFile #{dir}/response/grid_install.rsp' - #{usr}"
   environment(
     'TMP' => '/tmp',
     'TMPDIR' => '/tmp',
@@ -88,11 +90,19 @@ directory oh do
   mode '0775'
 end
 
-remote_file "#{oh}/#{op}" do
-  source "#{url}/#{op}"
-  user usr
-  group grp
-  not_if { File.exist?("#{oh}/#{op}") }
+if url.nil?
+  execute 'copy_opatch' do
+    command "cp #{op_loc}/#{op} #{oh}"
+    not_if { op_loc.nil? }
+    not_if { File.exist?("#{oh}/#{File.basename(op)}") }
+  end
+else
+  remote_file "#{oh}/#{File.basename(op)}" do
+    source "#{url}/#{op}"
+    user usr
+    group grp
+    not_if { File.exist?("#{oh}/#{File.basename(op)}") }
+  end
 end
 
 execute 'backup_opatch' do
@@ -101,9 +111,10 @@ execute 'backup_opatch' do
   group grp
   cwd oh
   not_if { File.directory?("#{oh}/OPatch.orig") }
+  only_if { File.exist?("#{oh}/#{File.basename(op)}") }
 end
 
-execute "unzip_#{op}" do
+execute "unzip_#{File.basename(op)}" do
   command "unzip -n #{File.basename(op)}"
   user usr
   group grp
@@ -111,9 +122,11 @@ execute "unzip_#{op}" do
   not_if { File.directory?("#{oh}/OPatch") }
 end
 
-execute 'clean_gi_media' do
-  command "rm -rf #{gdir}"
+directory gdir do
+  action :delete
+  recursive true
   user usr
   group grp
   only_if { File.directory?(gdir) }
+  not_if { url.nil? }
 end
