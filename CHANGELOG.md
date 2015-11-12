@@ -3,6 +3,10 @@ oracle-omni CHANGELOG
 
 This file is used to list changes made in each version of the oracle-omni cookbook.
 
+0.2.0
+-----
+- [Stephen Pliska-Matyshak] - local media installation and README update
+
 0.1.6
 -----
 - [Stephen Pliska-Matyshak] - adjust kernel.panic & vm.swappiness
