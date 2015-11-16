@@ -65,7 +65,7 @@ end
 execute 'run_roothas' do
   command "#{oh}/perl/bin/perl -I#{oh}/perl/lib -I#{oh}/crs/install \
     #{oh}/crs/install/roothas.pl"
-  not_if 'ps -ef | grep ohasd | grep -v grep' 
+  not_if 'ps -ef | grep ohasd | grep -v grep'
 end
 
 execute 'run_orainstRoot' do

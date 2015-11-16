@@ -17,7 +17,7 @@ pwd_content = Chef::EncryptedDataBagItem.load(node['oracle-omni']['oracle']['dat
 rdbms_pwd = pwd_content['password']
 
 pwd_content = Chef::EncryptedDataBagItem.load(node['oracle-omni']['oracle']['data_bag'],
-  node['oracle-omni']['grid']['user'])
+                                              node['oracle-omni']['grid']['user'])
 asm_pwd = pwd_content['password']
 
 template "#{oh}/assistants/dbca/dbca.rsp" do
