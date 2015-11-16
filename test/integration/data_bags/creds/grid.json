@@ -1,0 +1,9 @@
+{
+  "id": "grid",
+  "password": {
+    "encrypted_data": "xALj0HfgbwmQKr4Se0+8c/BtsWPr4UzGH+h+boHJptM=\n",
+    "iv": "aVBPTVIJvPT3ns1DoHMAYw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

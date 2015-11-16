@@ -1,0 +1,9 @@
+{
+  "id": "oracle",
+  "password": {
+    "encrypted_data": "1bTtZ3KrS0o51LswAuRewWkq6C5CFaELQkeHgc0FXK0=\n",
+    "iv": "O3e/EMu0tqdySM+PwcDLdg==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

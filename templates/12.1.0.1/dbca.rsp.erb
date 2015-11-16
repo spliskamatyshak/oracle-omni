@@ -274,7 +274,7 @@ TEMPLATENAME = "General_Purpose.dbc"
 # Default value : None
 # Mandatory     : Yes
 #-----------------------------------------------------------------------------
-SYSPASSWORD = "<%= node['oracle-omni']['rdbms']['password'] %>"
+SYSPASSWORD = "<%= @rdbms_password %>"
 
 #-----------------------------------------------------------------------------
 # Name          : SYSTEMPASSWORD
@@ -284,7 +284,7 @@ SYSPASSWORD = "<%= node['oracle-omni']['rdbms']['password'] %>"
 # Default value : None
 # Mandatory     : Yes
 #-----------------------------------------------------------------------------
-SYSTEMPASSWORD = "<%= node['oracle-omni']['rdbms']['password'] %>"
+SYSTEMPASSWORD = "<%= @rdbms_password %>"
 
 #-----------------------------------------------------------------------------
 # Name          : SERVICEUSERPASSWORD
@@ -478,7 +478,7 @@ DISKGROUPNAME=DATA_DG
 # Default value : None
 # Mandatory     : No
 #-----------------------------------------------------------------------------
-ASMSNMP_PASSWORD="<%= node['oracle-omni']['grid']['asm_password'] %>"
+ASMSNMP_PASSWORD="<%= @asm_password %>"
 
 #-----------------------------------------------------------------------------
 # Name          : RECOVERYGROUPNAME

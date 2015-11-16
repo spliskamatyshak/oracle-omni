@@ -10,7 +10,9 @@
 oh = node['oracle-omni']['grid']['oracle_home']
 usr = node['oracle-omni']['grid']['user']
 grp = node['oracle-omni']['grid']['groups'].keys.first
-pwd = node['oracle-omni']['grid']['asm_password']
+
+pwd_content = Chef::EncryptedDataBagItem.load(node['oracle-omni']['oracle']['data_bag'], usr)
+pwd = pwd_content['password']
 
 execute 'start_cssd' do
   command "#{oh}/bin/crs_start ora.cssd"
