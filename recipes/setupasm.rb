@@ -56,7 +56,7 @@ node['oracle-omni']['grid']['log_disks'].each do |disk|
   dsk = File.basename(disk) + part_no
 
   execute "create_ASM_log_#{dsk}" do
-    command "/usr/sbin/oracleasm createdisk LOG #{disk}#{part_no}"
+    command "/usr/sbin/oracleasm createdisk LOG_#{dsk} #{disk}#{part_no}"
     retries 3
     retry_delay 20
     not_if "/usr/sbin/oracleasm listdisks | grep -q LOG_#{dsk}"
