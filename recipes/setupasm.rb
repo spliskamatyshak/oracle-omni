@@ -39,11 +39,6 @@ execute 'create_ASM_ocr' do
   not_if '/usr/sbin/oracleasm listdisks | grep -q OCR'
 end
 
-parted_disk node['oracle-omni']['grid']['data_disk'] do
-  action :mkpart
-  not_if { node['oracle-omni']['grid']['data_disk'].include? 'md' }
-end
-
 part_no = node['oracle-omni']['grid']['data_disk']['md'] ? '' : '1'
 
 execute 'create_ASM_data' do
@@ -52,11 +47,6 @@ execute 'create_ASM_data' do
   retries 3
   retry_delay 20
   not_if '/usr/sbin/oracleasm listdisks | grep -q DATA'
-end
-
-parted_disk node['oracle-omni']['grid']['log_disk'] do
-  action :mkpart
-  not_if { node['oracle-omni']['grid']['log_disk'].include? 'md' }
 end
 
 part_no = node['oracle-omni']['grid']['log_disk']['md'] ? '' : '1'
