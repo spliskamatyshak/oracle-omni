@@ -13,11 +13,16 @@ usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
 sid = node['oracle-omni']['rdbms']['sid']
 
-pwd_content = Chef::EncryptedDataBagItem.load(node['oracle-omni']['oracle']['data_bag'], usr)
+pwd_content = Chef::EncryptedDataBagItem.load(
+  node['oracle-omni']['oracle']['data_bag'],
+  usr
+)
 rdbms_pwd = pwd_content['password']
 
-pwd_content = Chef::EncryptedDataBagItem.load(node['oracle-omni']['oracle']['data_bag'],
-                                              node['oracle-omni']['grid']['user'])
+pwd_content = Chef::EncryptedDataBagItem.load(
+  node['oracle-omni']['oracle']['data_bag'],
+  node['oracle-omni']['grid']['user']
+)
 asm_pwd = pwd_content['password']
 
 template "#{oh}/assistants/dbca/dbca.rsp" do

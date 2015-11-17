@@ -11,7 +11,10 @@ oh = node['oracle-omni']['grid']['oracle_home']
 usr = node['oracle-omni']['grid']['user']
 grp = node['oracle-omni']['grid']['groups'].keys.first
 
-pwd_content = Chef::EncryptedDataBagItem.load(node['oracle-omni']['oracle']['data_bag'], usr)
+pwd_content = Chef::EncryptedDataBagItem.load(
+  node['oracle-omni']['oracle']['data_bag'],
+  usr
+)
 pwd = pwd_content['password']
 
 execute 'start_cssd' do
