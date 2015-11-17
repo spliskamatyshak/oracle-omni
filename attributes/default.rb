@@ -139,7 +139,6 @@ default['oracle-omni']['rdbms']['sid'] = 'orcl'
 default['oracle-omni']['rdbms']['storage_type'] = 'FS'
 default['oracle-omni']['rdbms']['char_set'] = 'AL32UTF8'
 default['oracle-omni']['rdbms']['nchar_set'] = 'AL16UTF16'
-default['oracle-omni']['rdbms']['password'] = 'Pa55word'
 
 ###############################################################################
 # grid attributes
@@ -190,8 +189,6 @@ end
 default['oracle-omni']['grid']['clone_file'] = nil
 
 default['oracle-omni']['grid']['cvuqdisk_rpm'] = 'cvuqdisk-1.0.9-1.rpm'
-
-default['oracle-omni']['grid']['asm_password'] = 'Pa55word'
 
 ###############################################################################
 # client attributes
