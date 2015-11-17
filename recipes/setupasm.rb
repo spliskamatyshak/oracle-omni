@@ -9,7 +9,7 @@
 
 prefix = ''
 
-node['oracle-omni']['grid']['device_prefix'].each do |dev|
+node['oracle-omni']['grid']['device_prefixes'].each do |dev|
   prefix += "-o #{dev} "
 end
 
@@ -39,22 +39,26 @@ execute 'create_ASM_ocr' do
   not_if '/usr/sbin/oracleasm listdisks | grep -q OCR'
 end
 
-part_no = node['oracle-omni']['grid']['data_disk']['md'] ? '' : '1'
+node['oracle-omni']['grid']['data_disks'].each do |disk|
+  part_no = disk['md'] ? '' : '1'
+  dsk = File.basename(disk) + part_no
 
-execute 'create_ASM_data' do
-  command "/usr/sbin/oracleasm createdisk DATA \
-  #{node['oracle-omni']['grid']['data_disk']}#{part_no}"
-  retries 3
-  retry_delay 20
-  not_if '/usr/sbin/oracleasm listdisks | grep -q DATA'
+  execute "create_ASM_data_#{dsk}" do
+    command "/usr/sbin/oracleasm createdisk DATA_#{dsk} #{disk}#{part_no}"
+    retries 3
+    retry_delay 20
+    not_if "/usr/sbin/oracleasm listdisks | grep -q DATA_#{dsk}"
+  end
 end
 
-part_no = node['oracle-omni']['grid']['log_disk']['md'] ? '' : '1'
+node['oracle-omni']['grid']['log_disks'].each do |disk|
+  part_no = disk['md'] ? '' : '1'
+  dsk = File.basename(disk) + part_no
 
-execute 'create_ASM_log' do
-  command "/usr/sbin/oracleasm createdisk LOG \
-  #{node['oracle-omni']['grid']['log_disk']}#{part_no}"
-  retries 3
-  retry_delay 20
-  not_if '/usr/sbin/oracleasm listdisks | grep -q LOG'
+  execute "create_ASM_log_#{dsk}" do
+    command "/usr/sbin/oracleasm createdisk LOG #{disk}#{part_no}"
+    retries 3
+    retry_delay 20
+    not_if "/usr/sbin/oracleasm listdisks | grep -q LOG_#{dsk}"
+  end
 end

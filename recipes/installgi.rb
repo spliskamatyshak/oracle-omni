@@ -17,6 +17,12 @@ url = node['oracle-omni']['oracle']['files_url']
 op = node['oracle-omni']['oracle']['opatch']
 op_loc = node['oracle-omni']['oracle']['opatch_loc']
 
+pwd_content = Chef::EncryptedDataBagItem.load(
+  node['oracle-omni']['oracle']['data_bag'],
+  usr
+)
+asm_pwd = pwd_content['password']
+
 unless url.nil?
   node['oracle-omni']['grid']['install_files'].each do |zip_file|
     remote_file "#{dir}/#{File.basename(zip_file)}" do
@@ -50,6 +56,9 @@ end
 
 template "#{dir}/grid_install.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/grid_install.rsp.erb"
+  variables(
+    asm_pasword: asm_pwd
+  )
   user usr
   group grp
   mode '0644'

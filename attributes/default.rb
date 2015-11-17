@@ -163,10 +163,10 @@ default['oracle-omni']['grid']['install_dir'] =
 
 # Disk configuration attributes
 
-default['oracle-omni']['grid']['device_prefix'] = nil
+default['oracle-omni']['grid']['device_prefixes'] = nil
 default['oracle-omni']['grid']['ocr_disk'] = nil
-default['oracle-omni']['grid']['data_disk'] = nil
-default['oracle-omni']['grid']['log_disk'] = nil
+default['oracle-omni']['grid']['data_disks'] = nil
+default['oracle-omni']['grid']['log_disks'] = nil
 
 # Installation attributes
 

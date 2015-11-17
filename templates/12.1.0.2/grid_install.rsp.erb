@@ -324,7 +324,7 @@ oracle.install.crs.config.ipmi.bmcPassword=
 #-------------------------------------------------------------------------------
 # Specify a password for SYSASM user of the ASM instance
 #-------------------------------------------------------------------------------
-oracle.install.asm.SYSASMPassword=<%= node['oracle-omni']['grid']['asm_password'] %>
+oracle.install.asm.SYSASMPassword=<%= @asm_password %>
 
 #-------------------------------------------------------------------------------
 # The ASM DiskGroup
@@ -388,7 +388,7 @@ oracle.install.asm.diskGroup.diskDiscoveryString=ORCL:*
 #-------------------------------------------------------------------------------
 # oracle.install.asm.monitorPassword=password
 #-------------------------------------------------------------------------------
-oracle.install.asm.monitorPassword=<%= node['oracle-omni']['grid']['asm_password'] %>
+oracle.install.asm.monitorPassword=<%= @asm_password %>
 
 #-------------------------------------------------------------------------------
 # Applicable only if configuring CLIENT_ASM_STORAGE for OCR/Voting Disk storage

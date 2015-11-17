@@ -19,17 +19,39 @@ when 12
   'diskgroup'
 end
 
+cnt = 0
+disklist = ''
+
+node['oracle-omni']['grid']['data_disks'].each do |disk|
+  cnt += 1
+  suffix = disk['md'] ? '' : '1'
+  disk = 'ORCL:DATA_' + disk.slice(5, disk.length - 5) + suffix
+  disklist += disk
+  disklist += ',' unless cnt >= node['oracle-omni']['grid']['data_disks'].count
+end
+
 execute 'create_data_dg' do
   command "#{oh}/bin/asmca -silent -createDiskGroup -diskGroupName DATA_DG \
-    -diskList ORCL:DATA -redundancy EXTERNAL"
+    -diskList #{disklist} -redundancy EXTERNAL"
   user usr
   group grp
   not_if "#{oh}/bin/srvctl status diskgroup -#{arg} DATA_DG", user: usr
 end
 
+cnt = 0
+disklist = ''
+
+node['oracle-omni']['grid']['log_disks'].each do |disk|
+  cnt += 1
+  suffix = disk['md'] ? '' : '1'
+  disk = 'ORCL:LOG_' + disk.slice(5, disk.length - 5) + suffix
+  disklist += disk
+  disklist += ',' unless cnt >= node['oracle-omni']['grid']['log_disks'].count
+end
+
 execute 'create_log_dg' do
   command "#{oh}/bin/asmca -silent -createDiskGroup -diskGroupName LOG_DG \
-    -diskList ORCL:LOG -redundancy EXTERNAL"
+    -diskList #{disklist} -redundancy EXTERNAL"
   user usr
   group grp
   not_if "#{oh}/bin/srvctl status diskgroup -#{arg} LOG_DG", user: usr
