@@ -25,9 +25,9 @@ disklist = ''
 node['oracle-omni']['grid']['data_disks'].each do |disk|
   cnt += 1
   suffix = disk['md'] ? '' : '1'
-  disk = 'ORCL:DATA_' + disk.slice(5, disk.length - 5) + suffix
+  disk = 'ORCL:DATA_' + File.basename(disk) + suffix
   disklist += disk
-  disklist += ',' unless cnt >= node['oracle-omni']['grid']['data_disks'].count
+  disklist += ',' if cnt < node['oracle-omni']['grid']['data_disks'].count
 end
 
 execute 'create_data_dg' do
@@ -44,9 +44,9 @@ disklist = ''
 node['oracle-omni']['grid']['log_disks'].each do |disk|
   cnt += 1
   suffix = disk['md'] ? '' : '1'
-  disk = 'ORCL:LOG_' + disk.slice(5, disk.length - 5) + suffix
+  disk = 'ORCL:LOG_' + File.basename(disk) + suffix
   disklist += disk
-  disklist += ',' unless cnt >= node['oracle-omni']['grid']['log_disks'].count
+  disklist += ',' if cnt < node['oracle-omni']['grid']['log_disks'].count
 end
 
 execute 'create_log_dg' do

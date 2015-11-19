@@ -24,9 +24,12 @@ execute 'start_cssd' do
   not_if "#{oh}/bin/crsctl check css", user: usr
 end
 
+suffix = node['oracle-omni']['grid']['ocr_disk']['md'] ? '' : '1'
+disk = 'ORCL:OCR_' + File.basename(node['oracle-omni']['grid']['ocr_disk']) + suffix
+
 execute 'configure_asm' do
   command "#{oh}/bin/asmca -silent -configureASM -sysASMPassword #{pwd} \
-    -asmsnmpPassword #{pwd} -diskGroupName SYSTEM_DG -diskList ORCL:OCR \
+    -asmsnmpPassword #{pwd} -diskGroupName SYSTEM_DG -diskList #{disk} \
     -redundancy EXTERNAL"
   user usr
   group grp

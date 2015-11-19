@@ -8,15 +8,25 @@
 #
 
 node['oracle-omni']['grid']['data_disks'].each do |disk|
+  next if disk.include? 'md'
+
+  parted_disk disk do
+    action :mklabel
+  end
+
   parted_disk disk do
     action :mkpart
-    not_if { disk.include? 'md' }
   end
 end
 
 node['oracle-omni']['grid']['log_disks'].each do |disk|
+  next if disk.include? 'md'
+
+  parted_disk disk do
+    action :mklabel
+  end
+
   parted_disk disk do
     action :mkpart
-    not_if { disk.include? 'md' }
   end
 end
