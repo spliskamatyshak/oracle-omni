@@ -42,7 +42,7 @@ execute 'create_ASM_ocr' do
   #{node['oracle-omni']['grid']['ocr_disk']}#{part_no}"
   retries 3
   retry_delay 20
-  not_if "/usr/sbin/oracleasm listdisks | grep -q OCR_#{dsk}"
+  not_if "/usr/sbin/oracleasm listdisks | grep -qi OCR_#{dsk}"
 end
 
 node['oracle-omni']['grid']['data_disks'].each do |disk|
@@ -53,7 +53,7 @@ node['oracle-omni']['grid']['data_disks'].each do |disk|
     command "/usr/sbin/oracleasm createdisk DATA_#{dsk} #{disk}#{part_no}"
     retries 3
     retry_delay 20
-    not_if "/usr/sbin/oracleasm listdisks | grep -q DATA_#{dsk}"
+    not_if "/usr/sbin/oracleasm listdisks | grep -qi DATA_#{dsk}"
   end
 end
 
@@ -65,6 +65,6 @@ node['oracle-omni']['grid']['log_disks'].each do |disk|
     command "/usr/sbin/oracleasm createdisk LOG_#{dsk} #{disk}#{part_no}"
     retries 3
     retry_delay 20
-    not_if "/usr/sbin/oracleasm listdisks | grep -q LOG_#{dsk}"
+    not_if "/usr/sbin/oracleasm listdisks | grep -qi LOG_#{dsk}"
   end
 end

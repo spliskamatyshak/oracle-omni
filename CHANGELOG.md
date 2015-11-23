@@ -3,6 +3,10 @@ oracle-omni CHANGELOG
 
 This file is used to list changes made in each version of the oracle-omni cookbook.
 
+0.3.1
+-----
+- [Stephen Pliska-Matyshak] - case-insensitive grep for ASM disk check
+
 0.3.0
 -----
 - [Stephen Pliska-Matyshak] - multi disk diskgroups and easier disk identification
