@@ -52,9 +52,10 @@ end
 end
 
 execute 'create_db' do
-  command "su -c 'export ORACLE_BASE=#{ob}; \
+  command "setenforce 0; su -c 'export ORACLE_BASE=#{ob}; \
     export TNS_ADMIN=#{oh}/network/admin; #{oh}/bin/dbca -silent \
-    -responseFile #{oh}/assistants/dbca/dbca.rsp' - #{usr}"
+    -responseFile #{oh}/assistants/dbca/dbca.rsp' - #{usr}; \
+    setenforce 1"
   not_if "#{oh}/bin/srvctl status database -d #{sid}", environment: {
     'ORACLE_HOME' => oh
   }
