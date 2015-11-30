@@ -139,6 +139,7 @@ default['oracle-omni']['rdbms']['sid'] = 'orcl'
 default['oracle-omni']['rdbms']['storage_type'] = 'FS'
 default['oracle-omni']['rdbms']['char_set'] = 'AL32UTF8'
 default['oracle-omni']['rdbms']['nchar_set'] = 'AL16UTF16'
+default['oracle-omni']['rdbms']['lsnr_port'] = 1_521
 
 ###############################################################################
 # grid attributes

@@ -1,2 +1,2 @@
-# Port 1521 for listener
--I INPUT -p tcp --dport 1521 -j ACCEPT
+# Port <%= node['oracle-omni']['rdbms']['lsnr_port'] %> for listener
+-I INPUT -p tcp --dport <%= node['oracle-omni']['rdbms']['lsnr_port'] %> -j ACCEPT
