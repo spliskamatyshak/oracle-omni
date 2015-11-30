@@ -29,3 +29,9 @@ end
 execute 'set_swappiness' do
   command 'sysctl -w vm.swappiness=100'
 end
+
+include_recipe 'iptables'
+
+iptables_rule 'lsnr_port' do
+  action :enable
+end
