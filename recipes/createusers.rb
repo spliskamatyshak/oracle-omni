@@ -12,6 +12,7 @@
 node['oracle-omni']['grid']['groups'].each_key do |grp|
   group grp do
     gid node['oracle-omni']['grid']['groups'][grp]
+    action :create
   end
 end
 
@@ -40,6 +41,7 @@ end
 node['oracle-omni']['rdbms']['groups'].each_key do |grp|
   group grp do
     gid node['oracle-omni']['rdbms']['groups'][grp]
+    action :create
   end
 end
 
