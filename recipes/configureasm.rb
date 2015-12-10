@@ -25,7 +25,7 @@ execute 'start_cssd' do
 end
 
 suffix = node['oracle-omni']['grid']['ocr_disk']['md'] ? '' : '1'
-disk = 'ORCL:OCR_' + File.basename(node['oracle-omni']['grid']['ocr_disk']).upcase + suffix
+disk = '/dev/oracleasm/disks/OCR_' + File.basename(node['oracle-omni']['grid']['ocr_disk']).upcase + suffix
 
 execute 'configure_asm' do
   command "#{oh}/bin/asmca -silent -configureASM -sysASMPassword #{pwd} \
