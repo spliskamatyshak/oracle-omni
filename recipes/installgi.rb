@@ -57,7 +57,8 @@ end
 template "#{dir}/grid_install.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/grid_install.rsp.erb"
   variables(
-    asm_pasword: asm_pwd
+    asm_pasword: asm_pwd,
+    disc_string: "#{node['oracle-omni']['grid']['discovery_string']}*"
   )
   user usr
   group grp

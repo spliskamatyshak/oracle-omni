@@ -25,7 +25,7 @@ disklist = ''
 node['oracle-omni']['grid']['data_disks'].each do |disk|
   cnt += 1
   suffix = disk['md'] ? '' : '1'
-  disk = '/dev/oracleasm/disks/DATA_' + File.basename(disk).upcase + suffix
+  disk = node['oracle-omni']['grid']['discovery_string'] + 'DATA_' + File.basename(disk).upcase + suffix
   disklist += disk
   disklist += ',' if cnt < node['oracle-omni']['grid']['data_disks'].count
 end
@@ -44,7 +44,7 @@ disklist = ''
 node['oracle-omni']['grid']['log_disks'].each do |disk|
   cnt += 1
   suffix = disk['md'] ? '' : '1'
-  disk = '/dev/oracleasm/disks/LOG_' + File.basename(disk).upcase + suffix
+  disk = node['oracle-omni']['grid']['discovery_string'] + 'LOG_' + File.basename(disk).upcase + suffix
   disklist += disk
   disklist += ',' if cnt < node['oracle-omni']['grid']['log_disks'].count
 end

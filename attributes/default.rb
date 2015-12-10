@@ -169,7 +169,8 @@ default['oracle-omni']['grid']['ocr_disk'] = nil
 default['oracle-omni']['grid']['data_disks'] = nil
 default['oracle-omni']['grid']['log_disks'] = nil
 
-default['oracle-omni']['grid']['logical_block_size'] = '-p' # or '-b'
+default['oracle-omni']['grid']['logical_block_size'] = '-p'
+default['oracle-omni']['grid']['discovery_string'] = 'ORCL:' # to handle OS version oddity
 
 # Installation attributes
 
