@@ -62,6 +62,7 @@ template "#{dir}/grid_install.rsp" do
   user usr
   group grp
   mode '0644'
+  sensitive true
 end
 
 yum_package 'cvuqdisk' do
