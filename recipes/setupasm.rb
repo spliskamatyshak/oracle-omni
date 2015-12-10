@@ -17,7 +17,7 @@ execute 'configure_asm' do
   command "/usr/sbin/oracleasm configure -e \
   -u #{node['oracle-omni']['grid']['user']} \
   -g #{node['oracle-omni']['grid']['groups'].keys[3]} \
-  -s y -e #{prefix}"
+  -s y -e #{prefix} #{node['oracle-omni']['grid']['logical_block_size']}"
 end
 
 execute 'init_asm' do

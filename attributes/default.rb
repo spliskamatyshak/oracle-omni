@@ -169,6 +169,8 @@ default['oracle-omni']['grid']['ocr_disk'] = nil
 default['oracle-omni']['grid']['data_disks'] = nil
 default['oracle-omni']['grid']['log_disks'] = nil
 
+default['oracle-omni']['grid']['logical_block_size'] = '-p' # or '-b'
+
 # Installation attributes
 
 default['oracle-omni']['grid']['install_files'] =
