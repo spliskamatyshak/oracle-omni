@@ -16,6 +16,7 @@ inv = node['oracle-omni']['oracle']['oracle_inventory']
 url = node['oracle-omni']['oracle']['files_url']
 op = node['oracle-omni']['oracle']['opatch']
 op_loc = node['oracle-omni']['oracle']['opatch_loc']
+rsp_dir = Chef::Config['file_cache_path']
 
 unless url.nil?
   node['oracle-omni']['rdbms']['install_files'].each do |zip_file|
@@ -49,7 +50,7 @@ template '/etc/oraInst.loc' do
   not_if { File.exist?('/etc/oraInst.loc') }
 end
 
-template "#{dir}/db_install.rsp" do
+template "#{rsp_dir}/db_install.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/db_install.rsp.erb"
   user usr
   group grp
@@ -59,7 +60,7 @@ end
 execute 'rdbms_install' do
   command "su -c '#{rdir}/runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{dir}/db_install.rsp' - #{usr}"
+  -responseFile #{rsp_dir}/db_install.rsp' - #{usr}"
   environment(
     'TMP' => '/tmp',
     'TMPDIR' => '/tmp',

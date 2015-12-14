@@ -16,6 +16,7 @@ inv = node['oracle-omni']['oracle']['oracle_inventory']
 url = node['oracle-omni']['oracle']['files_url']
 op = node['oracle-omni']['oracle']['opatch']
 op_loc = node['oracle-omni']['oracle']['opatch_loc']
+rsp_dir = Chef::Config['file_cache_path']
 
 pwd_content = Chef::EncryptedDataBagItem.load(
   node['oracle-omni']['oracle']['data_bag'],
@@ -54,7 +55,7 @@ template '/etc/oraInst.loc' do
   mode '0644'
 end
 
-template "#{dir}/grid_install.rsp" do
+template "#{rsp_dir}/grid_install.rsp" do
   source "#{node['oracle-omni']['rdbms']['version']}/grid_install.rsp.erb"
   variables(
     asm_pasword: asm_pwd,
@@ -74,7 +75,7 @@ end
 execute 'gi_install' do
   command "su -c '#{gdir}/runInstaller -silent -waitforcompletion \
   -ignoreSysPrereqs -ignorePrereq \
-  -responseFile #{dir}/grid_install.rsp' - #{usr}"
+  -responseFile #{rsp_dir}/grid_install.rsp' - #{usr}"
   environment(
     'TMP' => '/tmp',
     'TMPDIR' => '/tmp',

@@ -17,8 +17,6 @@ mnt = node['oracle-omni']['oracle']['home_mount']
   node['oracle-omni']['rdbms']['oracle_base'],
   node['oracle-omni']['grid']['oracle_home'],
   node['oracle-omni']['oracle']['oracle_inventory'],
-  node['oracle-omni']['oracle']['install_dir'],
-  node['oracle-omni']['oracle']['patch_dir'],
   node['oracle-omni']['rdbms']['oracle_home']
 ].each do |dirs|
   directory dirs do
@@ -27,6 +25,22 @@ mnt = node['oracle-omni']['oracle']['home_mount']
     mode '0775'
     recursive true
   end
+end
+
+directory node['oracle-omni']['oracle']['install_dir'] do
+  owner gusr
+  group ggrp
+  mode '0775'
+  recursive true
+  not_if { node['oracle-omni']['oracle']['files_url'].nil? }
+end
+
+directory node['oracle-omni']['oracle']['patch_dir'] do
+  owner gusr
+  group ggrp
+  mode '0775'
+  recursive true
+  not_if { node['oracle-omni']['oracle']['patch_dir'].empty? }
 end
 
 execute 'set_grid_owner' do
