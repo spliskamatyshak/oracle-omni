@@ -9,7 +9,11 @@
 
 dir = node['oracle-omni']['oracle']['install_dir']
 url = node['oracle-omni']['oracle']['files_url']
-file = File.basename(node['oracle-omni']['grid']['clone_file'])
+if url.nil?
+  file = node['oracle-omni']['grid']['clone_file']
+else
+  file = File.basename(node['oracle-omni']['grid']['clone_file'])
+end
 oh = node['oracle-omni']['grid']['oracle_home']
 ob = node['oracle-omni']['rdbms']['oracle_base']
 inv = node['oracle-omni']['oracle']['oracle_inventory']
