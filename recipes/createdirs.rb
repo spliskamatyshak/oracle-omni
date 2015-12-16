@@ -58,5 +58,5 @@ end
 execute 'oracle_ownership' do
   command "chown -R #{rusr}:#{rgrp} \
   #{node['oracle-omni']['rdbms']['oracle_base']}"
-  not_if "ls -ld #{node['oracle-omni']['rdbms']['oracle_base']} | grep -q #{rusr}"
+  not_if "ls -ld #{node['oracle-omni']['rdbms']['oracle_base']} | grep -q \"#{rusr} #{rgrp}\""
 end
