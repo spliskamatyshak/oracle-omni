@@ -6,7 +6,7 @@ description      'Installs/Configures oracle-omni'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url       'https://github.com/spliskamatyshak/oracle-omni'
 issues_url       'https://github.com/spliskamatyshak/oracle-omni/issues'
-version          '0.3.16'
+version          '0.3.17'
 
 supports         'oracle'
 
