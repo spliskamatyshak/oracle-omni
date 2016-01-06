@@ -65,7 +65,11 @@ unless node.attribute?('dirs_created')
     command "chown -R #{rusr}:#{rgrp} #{node['oracle-omni']['rdbms']['oracle_base']}"
   end
 
-  node.normal['dirs_created'] = true
-  node.save
+  ruby_block 'dirs_created_attrib_set' do
+    block do
+      node.normal['dirs_created'] = true
+      node.save
+    end
+  end
 
 end
