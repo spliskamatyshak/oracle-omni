@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: oracle-omni
-# Recipe:: patchhomes
+# Recipe:: patchrdbms
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,12 +24,12 @@ oh = node['oracle-omni']['rdbms']['oracle_home']
 usr = node['oracle-omni']['rdbms']['user']
 grp = node['oracle-omni']['rdbms']['groups'].keys.first
 pch_cmd =
-case node['oracle-omni']['rdbms']['version']
-when '11.2.0.4'
-  'opatch auto'
-else
-  'opatchauto apply'
-end
+  case node['oracle-omni']['rdbms']['version']
+  when '11.2.0.4'
+    'opatch auto'
+  else
+    'opatchauto apply'
+  end
 
 cookbook_file "#{pdir}/ocm.rsp" do
   source 'ocm.rsp'

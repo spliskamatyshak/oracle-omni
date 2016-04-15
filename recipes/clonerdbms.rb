@@ -17,11 +17,11 @@
 
 dir = node['oracle-omni']['oracle']['install_dir']
 url = node['oracle-omni']['oracle']['files_url']
-if url.nil?
-  file = node['oracle-omni']['rdbms']['clone_file']
-else
-  file = File.basename(node['oracle-omni']['rdbms']['clone_file'])
-end
+file = if url.nil?
+         node['oracle-omni']['rdbms']['clone_file']
+       else
+         File.basename(node['oracle-omni']['rdbms']['clone_file'])
+       end
 oh = node['oracle-omni']['rdbms']['oracle_home']
 ob = node['oracle-omni']['rdbms']['oracle_base']
 inv = node['oracle-omni']['oracle']['oracle_inventory']

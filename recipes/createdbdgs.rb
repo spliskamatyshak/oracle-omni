@@ -20,12 +20,12 @@ usr = node['oracle-omni']['grid']['user']
 grp = node['oracle-omni']['grid']['groups'].keys.first
 
 arg =
-case node['oracle-omni']['rdbms']['version'].to_i
-when 11
-  'g'
-when 12
-  'diskgroup'
-end
+  case node['oracle-omni']['rdbms']['version'].to_i
+  when 11
+    'g'
+  when 12
+    'diskgroup'
+  end
 
 cnt = 0
 disklist = ''

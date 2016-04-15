@@ -27,12 +27,12 @@ default['oracle-omni']['rdbms']['edition'] = 'EE' # EE, SE, SEONE, SE2
 # RPM attributes
 
 default['oracle-omni']['oracle']['preinstall_rpm'] =
-case node['oracle-omni']['rdbms']['version'].to_i
-when 11
-  'oracle-rdbms-server-11gR2-preinstall'
-when 12
-  'oracle-rdbms-server-12cR1-preinstall'
-end
+  case node['oracle-omni']['rdbms']['version'].to_i
+  when 11
+    'oracle-rdbms-server-11gR2-preinstall'
+  when 12
+    'oracle-rdbms-server-12cR1-preinstall'
+  end
 
 default['oracle-omni']['oracle']['asm_support_rpm'] = 'oracleasm-support'
 
@@ -40,12 +40,12 @@ default['oracle-omni']['oracle']['asmlib_rpm_url'] =
   'http://download.oracle.com/otn_software/asmlib'
 
 default['oracle-omni']['oracle']['asmlib_rpm'] =
-case node['platform_version'].to_i
-when 6
-  'oracleasmlib-2.0.4-1.el6.x86_64.rpm'
-when 7
-  'oracleasmlib-2.0.8-2.el7.x86_64.rpm'
-end
+  case node['platform_version'].to_i
+  when 6
+    'oracleasmlib-2.0.4-1.el6.x86_64.rpm'
+  when 7
+    'oracleasmlib-2.0.8-2.el7.x86_64.rpm'
+  end
 
 # Path configuration attributes
 
@@ -66,22 +66,22 @@ default['oracle-omni']['oracle']['files_url'] = nil
 default['oracle-omni']['oracle']['clone_homes'] = false
 
 default['oracle-omni']['oracle']['patch_file'] =
-case node['oracle-omni']['rdbms']['version']
-when '11.2.0.4'
-  'p21523375_112040_Linux-x86-64.zip'
-when '12.1.0.1'
-  'p21744328_121010_Linux-x86-64.zip'
-when '12.1.0.2'
-  'p21523234_121020_Linux-x86-64.zip'
-end
+  case node['oracle-omni']['rdbms']['version']
+  when '11.2.0.4'
+    'p21523375_112040_Linux-x86-64.zip'
+  when '12.1.0.1'
+    'p21744328_121010_Linux-x86-64.zip'
+  when '12.1.0.2'
+    'p21523234_121020_Linux-x86-64.zip'
+  end
 
 default['oracle-omni']['oracle']['opatch'] =
-case node['oracle-omni']['rdbms']['version'].to_f
-when 11.2
-  'p6880880_112000_Linux-x86-64.zip'
-when 12.1
-  'p6880880_121010_Linux-x86-64.zip'
-end
+  case node['oracle-omni']['rdbms']['version'].to_f
+  when 11.2
+    'p6880880_112000_Linux-x86-64.zip'
+  when 12.1
+    'p6880880_121010_Linux-x86-64.zip'
+  end
 
 default['oracle-omni']['oracle']['data_bag'] = 'creds'
 
@@ -114,30 +114,30 @@ default['oracle-omni']['rdbms']['install_dir'] =
 # Installation attributes
 
 default['oracle-omni']['rdbms']['install_files'] =
-case node['oracle-omni']['rdbms']['version']
-when '11.2.0.4'
-  %w(
-    p13390677_112040_Linux-x86-64_1of7.zip
-    p13390677_112040_Linux-x86-64_2of7.zip
-  )
-when '12.1.0.1'
-  %w(
-    linuxamd64_12c_database_1of2.zip
-    linuxamd64_12c_database_2of2.zip
-  )
-when '12.1.0.2'
-  if node['oracle-omni']['rdbms']['edition'] == 'SE2'
+  case node['oracle-omni']['rdbms']['version']
+  when '11.2.0.4'
     %w(
-      linuxamd64_12102_database_se2_1of2.zip
-      linuxamd64_12102_database_se2_2of2.zip
+      p13390677_112040_Linux-x86-64_1of7.zip
+      p13390677_112040_Linux-x86-64_2of7.zip
     )
-  else
+  when '12.1.0.1'
     %w(
-      linuxamd64_12102_database_1of2.zip
-      linuxamd64_12102_database_2of2.zip
+      linuxamd64_12c_database_1of2.zip
+      linuxamd64_12c_database_2of2.zip
     )
+  when '12.1.0.2'
+    if node['oracle-omni']['rdbms']['edition'] == 'SE2'
+      %w(
+        linuxamd64_12102_database_se2_1of2.zip
+        linuxamd64_12102_database_se2_2of2.zip
+      )
+    else
+      %w(
+        linuxamd64_12102_database_1of2.zip
+        linuxamd64_12102_database_2of2.zip
+      )
+    end
   end
-end
 
 default['oracle-omni']['rdbms']['clone_file'] = nil
 
@@ -183,20 +183,20 @@ default['oracle-omni']['grid']['discovery_string'] = 'ORCL:' # to handle OS vers
 # Installation attributes
 
 default['oracle-omni']['grid']['install_files'] =
-case node['oracle-omni']['rdbms']['version']
-when '11.2.0.4'
-  %w(p13390677_112040_Linux-x86-64_3of7.zip)
-when '12.1.0.1'
-  %w(
-    linuxamd64_12c_grid_1of2.zip
-    linuxamd64_12c_grid_2of2.zip
-  )
-when '12.1.0.2'
-  %w(
-    linuxamd64_12102_grid_1of2.zip
-    linuxamd64_12102_grid_2of2.zip
-  )
-end
+  case node['oracle-omni']['rdbms']['version']
+  when '11.2.0.4'
+    %w(p13390677_112040_Linux-x86-64_3of7.zip)
+  when '12.1.0.1'
+    %w(
+      linuxamd64_12c_grid_1of2.zip
+      linuxamd64_12c_grid_2of2.zip
+    )
+  when '12.1.0.2'
+    %w(
+      linuxamd64_12102_grid_1of2.zip
+      linuxamd64_12102_grid_2of2.zip
+    )
+  end
 
 default['oracle-omni']['grid']['clone_file'] = nil
 
@@ -212,26 +212,26 @@ default['oracle-omni']['client']['version'] = '12.1.0.2'
 default['oracle-omni']['client']['is_32bit'] = false
 
 default['oracle-omni']['client']['install_file'] =
-case node['oracle-omni']['client']['version']
-when '11.2.0.4'
-  if node['oracle-omni']['client']['is_32bit']
-    'p13390677_112040_LINUX_4of7.zip'
-  else
-    'p13390677_112040_Linux-x86-64_4of7.zip'
+  case node['oracle-omni']['client']['version']
+  when '11.2.0.4'
+    if node['oracle-omni']['client']['is_32bit']
+      'p13390677_112040_LINUX_4of7.zip'
+    else
+      'p13390677_112040_Linux-x86-64_4of7.zip'
+    end
+  when '12.1.0.1'
+    if node['oracle-omni']['client']['is_32bit']
+      'linux_12c_client32.zip'
+    else
+      'linuxamd64_12c_client.zip'
+    end
+  when '12.1.0.2'
+    if node['oracle-omni']['client']['is_32bit']
+      'linux_12102_client32.zip'
+    else
+      'linuxamd64_12102_client.zip'
+    end
   end
-when '12.1.0.1'
-  if node['oracle-omni']['client']['is_32bit']
-    'linux_12c_client32.zip'
-  else
-    'linuxamd64_12c_client.zip'
-  end
-when '12.1.0.2'
-  if node['oracle-omni']['client']['is_32bit']
-    'linux_12102_client32.zip'
-  else
-    'linuxamd64_12102_client.zip'
-  end
-end
 
 ###############################################################################
 # agent attributes
